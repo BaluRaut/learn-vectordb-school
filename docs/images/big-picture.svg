@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1160" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <style>
+    .band1 { fill: #fff; stroke: #2563eb; stroke-width: 3; }
+    .band2 { fill: #fff; stroke: #16a34a; stroke-width: 3; }
+    .bx  { fill: #f8fafc; stroke: #94a3b8; stroke-width: 2; }
+    .bxb { fill: #fff; stroke: #2563eb; stroke-width: 2.5; }
+    .bxg { fill: #fff; stroke: #16a34a; stroke-width: 2.5; }
+    .warn { fill: #fef2f2; stroke: #dc2626; stroke-width: 1.5; stroke-dasharray: 7 6; }
+    .tip  { fill: #eff6ff; stroke: #2563eb; stroke-width: 1.5; }
+    .win  { fill: #f0fdf4; stroke: #16a34a; stroke-width: 1.5; }
+    .title { font-size: 36px; font-weight: 800; fill: #0f172a; }
+    .bandt { font-size: 26px; font-weight: 800; }
+    .t  { font-size: 19px; font-weight: 600; fill: #0f172a; }
+    .s  { font-size: 15px; fill: #475569; }
+    .m  { text-anchor: middle; }
+    .arr  { stroke: #64748b; stroke-width: 2.5; fill: none; marker-end: url(#arw); }
+    .ntb { font-size: 15px; font-weight: 700; fill: #fff; text-anchor: middle; }
+  </style>
+
+  <rect x="0" y="0" width="1920" height="1160" fill="#ffffff"/>
+  <text class="title m" x="960" y="52">The Big Picture — the library sorted by MEANING · the hall is in the repo</text>
+
+  <rect class="band1" x="40" y="80" width="1840" height="470" rx="20"/>
+  <text class="bandt" x="70" y="122" fill="#2563eb">💡 PART 1 — THE IDEA (lessons 1–4)</text>
+
+  <rect class="bxb" x="70" y="170" width="400" height="130" rx="14"/>
+  <text class="t m" x="270" y="203">🗺️ meaning as seats</text>
+  <text class="s m" x="270" y="231">keywords match STRINGS — 'kind to animals'</text>
+  <text class="s m" x="270" y="255">misses 'Every Living Thing' · seat texts in</text>
+  <text class="s m" x="270" y="279">meaning-space and search becomes geometry</text>
+  <g transform="translate(70,170)"><circle r="13" fill="#2563eb"/><text class="ntb" dy="5">1</text></g>
+
+  <rect class="bxb" x="530" y="170" width="400" height="130" rx="14"/>
+  <text class="t m" x="730" y="203">🔢 text → vector</text>
+  <text class="s m" x="730" y="231">toy: hashed word counts (nearsighted —</text>
+  <text class="s m" x="730" y="255">'pupils' ≠ 'students'!) · real: learned</text>
+  <text class="s m" x="730" y="279">embeddings, 768-3072 meaning-dims · same DB</text>
+  <g transform="translate(530,170)"><circle r="13" fill="#2563eb"/><text class="ntb" dy="5">2</text></g>
+
+  <rect class="bxb" x="990" y="170" width="400" height="130" rx="14"/>
+  <text class="t m" x="1190" y="203">📐 similarity = direction</text>
+  <text class="s m" x="1190" y="231">cosine compares which way vectors POINT —</text>
+  <text class="s m" x="1190" y="255">essay and note about robots are siblings ·</text>
+  <text class="s m" x="1190" y="279">normalize at write → one-line dot at read ⚡</text>
+  <g transform="translate(990,170)"><circle r="13" fill="#2563eb"/><text class="ntb" dy="5">3</text></g>
+
+  <rect class="bxb" x="1450" y="170" width="400" height="130" rx="14"/>
+  <text class="t m" x="1650" y="203">🏃 neighbors at scale</text>
+  <text class="s m" x="1650" y="231">brute force: correct, dies at millions ·</text>
+  <text class="s m" x="1650" y="255">HNSW friendship-map hops / IVF districts —</text>
+  <text class="s m" x="1650" y="279">approximate, with a recall dial 🎯</text>
+  <g transform="translate(1450,170)"><circle r="13" fill="#2563eb"/><text class="ntb" dy="5">4</text></g>
+
+  <line class="arr" x1="470" y1="235" x2="526" y2="235"/>
+  <line class="arr" x1="930" y1="235" x2="986" y2="235"/>
+  <line class="arr" x1="1390" y1="235" x2="1446" y2="235"/>
+
+  <rect class="tip" x="70" y="400" width="880" height="110" rx="14"/>
+  <text class="t m" x="510" y="438">🔬 the repo: vectordb/vectordb.py — ~70 lines, zero dependencies</text>
+  <text class="s m" x="510" y="466">embed() hash → normalize · cosine() one-line dot · MiniVectorDB: add / filtered search / top-k</text>
+  <text class="s m" x="510" y="490">the embedder is ONE swappable function — the industry's architecture, in miniature</text>
+  <rect class="warn" x="990" y="400" width="860" height="110" rx="14"/>
+  <text class="t m" x="1420" y="438">😬 the honest failure, on purpose</text>
+  <text class="s m" x="1420" y="466">demo.py queries 'pupils' → 0.00 scores: word-vectors can't see synonyms —</text>
+  <text class="s m" x="1420" y="490">the best argument for learned embeddings you'll ever RUN (swap embed(), it just works)</text>
+
+  <text class="t m" x="960" y="588" fill="#475569">python3 vectordb/demo.py — index, search, filter, and one beautiful failure, in 60 seconds</text>
+
+  <rect class="band2" x="40" y="610" width="1840" height="510" rx="20"/>
+  <text class="bandt" x="70" y="652" fill="#16a34a">🔧 PART 2 — FOR REAL (lessons 5–8)</text>
+
+  <rect class="bxg" x="70" y="700" width="560" height="200" rx="14"/>
+  <text class="t m" x="350" y="733">✂️🏷️ scissors &amp; stickers (lesson 06)</text>
+  <text class="s m" x="350" y="763">chunk on natural seams · self-contained cards ·</text>
+  <text class="s m" x="350" y="787">10-15% overlap 🔁 · stickers: room/kind/source →</text>
+  <text class="s m" x="350" y="811">filtered search + citations 🧾 · hybrid = meaning</text>
+  <text class="s m" x="350" y="835">+ keywords merged (E-4012 needs exact match!)</text>
+  <text class="s m" x="350" y="871">chunking moves quality 2-5× · indexes move it 1.1×</text>
+  <g transform="translate(70,700)"><circle r="13" fill="#16a34a"/><text class="ntb" dy="5">1</text></g>
+
+  <rect class="bxg" x="690" y="700" width="560" height="200" rx="14"/>
+  <text class="t m" x="970" y="733">📖 RAG, end to end (lesson 07)</text>
+  <text class="s m" x="970" y="763">index time: docs → chunk → embed → store (re-index</text>
+  <text class="s m" x="970" y="787">tonight, 'knows' it tomorrow) · question time: embed</text>
+  <text class="s m" x="970" y="811">the question (SAME model!) → nearest cards → desk:</text>
+  <text class="s m" x="970" y="835">'answer ONLY from these, cite ids' → receipts 🧾</text>
+  <text class="s m" x="970" y="871">debugging drill: bad answer? print the CARDS first</text>
+  <g transform="translate(690,700)"><circle r="13" fill="#16a34a"/><text class="ntb" dy="5">2</text></g>
+
+  <rect class="bxg" x="1310" y="700" width="540" height="200" rx="14"/>
+  <text class="t m" x="1580" y="733">🏬 the landscape (lesson 08)</text>
+  <text class="s m" x="1580" y="763">🐘 pgvector — the library you already have ·</text>
+  <text class="s m" x="1580" y="787">☁️ managed (rent) · 🧪 Chroma/Qdrant (lab bench) ·</text>
+  <text class="s m" x="1580" y="811">⚙️ FAISS (engine block) · 🔎 old store, new tricks ·</text>
+  <text class="s m" x="1580" y="835">ask: filtered ANN? hybrid? deletes? the</text>
+  <text class="s m" x="1580" y="859">re-embedding day ⚠️ recall numbers attached?</text>
+  <g transform="translate(1310,700)"><circle r="13" fill="#16a34a"/><text class="ntb" dy="5">3</text></g>
+
+  <rect class="win" x="70" y="960" width="1780" height="120" rx="14"/>
+  <text class="t m" x="960" y="1000">🧭 the boring pick order: pgvector → embedded lab bench → managed/self-hosted at real scale · under ~100k vectors, a loop is fine 😄</text>
+  <text class="s m" x="960" y="1030">siblings: AI school (embeddings L04, RAG L10 — this is their machine room) · Agents school (this is their memory) ·</text>
+  <text class="s m" x="960" y="1054">and the ops schools for when you self-host the hall ☸️ — the embedder boundary keeps your vectors portable either way</text>
+</svg>

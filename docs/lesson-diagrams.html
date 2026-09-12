@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lesson diagrams — Learn VectorDB School</title>
+<meta name="description" content="All 8 vector database lessons as numbered diagrams — embeddings, similarity, ANN, chunking, RAG, landscape.">
+<style>
+  :root { --bg:#f8fafc; --card:#fff; --ink:#0f172a; --muted:#475569; --line:#e2e8f0; --accent:#2563eb; --ok:#16a34a; --blue:#2563eb; --bad:#dc2626; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0b1220; --card:#131c2e; --ink:#e2e8f0; --muted:#94a3b8; --line:#253349; } }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink); font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; line-height:1.6; }
+  .wrap { max-width:1280px; margin:0 auto; padding:28px 20px 60px; }
+  @media (min-width: 1660px) { .wrap { max-width: 1580px; } }
+  a { color:var(--blue); } h1 { font-size:2rem; line-height:1.25; } h2 { font-size:1.4rem; margin:44px 0 6px; }
+  .sub { color:var(--muted); max-width:74ch; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 8px; }
+  .chip { border:1px solid var(--line); background:var(--card); border-radius:999px; padding:6px 14px; font-size:.85rem; color:var(--muted); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; margin-top:16px; }
+  .lesson { background:var(--card); border:1px solid var(--line); border-top:5px solid var(--c,var(--accent)); border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:6px; }
+  .lesson .top { display:flex; align-items:center; gap:10px; }
+  .lesson .num { flex:none; width:30px; height:30px; border-radius:50%; background:var(--c,var(--accent)); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem; }
+  .lesson h3 { font-size:1.02rem; line-height:1.3; } .lesson .ana { color:var(--muted); font-size:.9rem; }
+  .lesson code { font-size:.78rem; background:var(--bg); border:1px solid var(--line); border-radius:6px; padding:1px 6px; }
+  .lesson a.go { margin-top:auto; font-weight:600; font-size:.9rem; text-decoration:none; } .lesson a.go+a.go { margin-top:0; } .lesson a.go:hover { text-decoration:underline; }
+  .callout { background:var(--card); border:1px solid var(--line); border-left:6px solid var(--ok); border-radius:14px; padding:18px 20px; margin-top:16px; }
+  pre { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; overflow-x:auto; font-size:.88rem; margin-top:12px; }
+  .btn { display:inline-block; background:var(--accent); color:#fff; border-radius:10px; padding:10px 18px; text-decoration:none; font-weight:700; margin:14px 10px 0 0; }
+  .btn.alt { background:transparent; color:var(--ink); border:1px solid var(--line); }
+  .vs { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; margin-top:16px; }
+  .vcol { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; } .vcol h3 { margin-bottom:8px; }
+  .vcol ul { margin-left:18px; color:var(--muted); font-size:.93rem; }
+  .toc { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 6px; }
+  .toc a { border:1px solid var(--line); background:var(--card); border-radius:999px; padding:5px 12px; font-size:.82rem; color:var(--muted); text-decoration:none; }
+  .toc a:hover { color:var(--ink); border-color:var(--muted); }
+  .quad { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin-top:10px; }
+  .q { border:1px solid var(--line); border-radius:12px; padding:14px; }
+  .q h4 { margin-bottom:6px; font-size:.98rem; } .q ul { margin-left:18px; color:var(--muted); font-size:.92rem; }
+  .q.merit { border-top:4px solid var(--ok); } .q.demerit { border-top:4px solid var(--bad); }
+  .q.use { border-top:4px solid var(--blue); }
+  footer { margin-top:56px; border-top:1px solid var(--line); padding-top:18px; color:var(--muted); font-size:.88rem; }
+
+  .dsec { background:var(--card); border:1px solid var(--line); border-top:6px solid var(--c,var(--accent)); border-radius:16px; padding:22px 22px 16px; margin-top:26px; scroll-margin-top:16px; }
+  .dsec h2 { font-size:1.25rem; display:flex; align-items:center; gap:10px; }
+  .dsec h2 .ln { flex:none; width:32px; height:32px; border-radius:50%; background:var(--c,var(--accent)); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:.95rem; font-weight:800; }
+  .dsec p.d { color:var(--muted); font-size:.95rem; margin:6px 0 4px; }
+  .dsec svg { width:100%; height:auto; display:block; margin-top:10px; } .dsec .foot { margin-top:8px; font-size:.92rem; }
+  .box { fill:var(--card); stroke:var(--c,var(--accent)); stroke-width:2; }
+  .soft { fill:var(--bg); stroke:var(--line); stroke-width:1.5; }
+  .dead { fill:var(--bg); stroke:var(--muted); stroke-width:1.5; stroke-dasharray:6 5; }
+  .t { font:600 14px -apple-system,"Segoe UI",sans-serif; fill:var(--ink); }
+  .s { font:12px -apple-system,"Segoe UI",sans-serif; fill:var(--muted); } .m { text-anchor:middle; }
+  .arr { stroke:#64748b; stroke-width:2; fill:none; marker-end:url(#arw); } .dash { stroke-dasharray:6 5; }
+  .nc { fill:var(--c,var(--accent)); } .nt { font:700 12px -apple-system,sans-serif; fill:#fff; text-anchor:middle; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs><marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs></svg>
+<div class="wrap">
+<header>
+  <p><a href="index.html">← Back to the course home</a></p>
+  <h1>📐 The 8 lessons as diagrams</h1>
+  <p class="sub">Blue = the idea (1–4) · green = for real (5–8). Follow the circled numbers.</p>
+  <nav class="toc">
+    <a href="#l01">1 Why vector DBs</a><a href="#l02">2 Text→vectors</a><a href="#l03">3 Similarity</a>
+    <a href="#l04">4 Neighbors</a><a href="#l05">5 Build</a><a href="#l06">6 Chunking</a>
+    <a href="#l07">7 RAG</a><a href="#l08">8 Landscape</a>
+  </nav>
+</header>
+
+<section class="dsec" id="l01" style="--c:#2563eb">
+  <h2><span class="ln">1</span> 🗺️ Why vector DBs</h2>
+  <p class="d">The library sorted by MEANING — keywords match strings, not ideas.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="dead" x="40" y="60" width="340" height="180" rx="14"/><text class="t m" x="210" y="95">📇 keyword catalog</text><text class="s m" x="210" y="125">&#39;kind to animals&#39; →</text><text class="s m" x="210" y="147">match exact strings →</text><text class="s m" x="210" y="169">❌ &#39;Every Living Thing&#39; missed</text><text class="s m" x="210" y="205">strings, not meaning</text><g transform="translate(40,60)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="440" y="40" width="460" height="220" rx="14"/><text class="t m" x="670" y="75">🗺️ the meaning hall — a vector DB</text><rect class="soft" x="465" y="95" width="190" height="60" rx="10"/><text class="s m" x="560" y="120">1 seat the question</text><text class="s m" x="560" y="142">(embed it)</text><rect class="soft" x="680" y="95" width="195" height="60" rx="10"/><text class="s m" x="777" y="120">2 find nearest seats</text><text class="s m" x="777" y="142">fast, at any scale</text><rect class="soft" x="565" y="175" width="210" height="60" rx="10"/><text class="s m" x="670" y="200">3 ✅ &#39;Every Living Thing&#39;</text><text class="s m" x="670" y="222">zero shared words!</text><line class="arr" x1="655" y1="125" x2="676" y2="125"/><line class="arr" x1="777" y1="155" x2="700" y2="171"/><g transform="translate(440,40)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><text class="s m" x="470" y="290">store millions of seats · return the k nearest · with stickers 🏷️ — that&#39;s the whole product</text></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-01-why-vector-db/lessons/01-why-vector-db/README.md">Read full lesson 01 →</a></p>
+</section>
+
+<section class="dsec" id="l02" style="--c:#2563eb">
+  <h2><span class="ln">2</span> 🔢 Text to vectors</h2>
+  <p class="d">Giving every text a seat — our honest toy vs learned embeddings.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="soft" x="40" y="40" width="270" height="200" rx="14"/><text class="t m" x="175" y="72">🔤 toy: count words</text><text class="s m" x="175" y="100">hash each word → bump 1 of</text><text class="s m" x="175" y="122">256 buckets → normalize</text><rect class="dead" x="65" y="145" width="220" height="70" rx="10"/><text class="s m" x="175" y="172">😬 nearsighted: shared WORDS</text><text class="s m" x="175" y="194">&#39;pupils&#39; ≠ &#39;students&#39; (0.00!)</text><g transform="translate(40,40)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="350" y="40" width="270" height="200" rx="14"/><text class="t m" x="485" y="72">🧠 real: embedding model</text><text class="s m" x="485" y="100">a trained network → 768-3072</text><text class="s m" x="485" y="122">dims where directions = MEANING</text><rect class="soft" x="375" y="145" width="220" height="70" rx="10"/><text class="s m" x="485" y="172">✅ &#39;pupils&#39; sits beside &#39;students&#39;</text><text class="s m" x="485" y="194">across phrasing &amp; languages</text><g transform="translate(350,40)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="box" x="680" y="75" width="230" height="130" rx="14"/><text class="t m" x="795" y="110">🗺️ the DB doesn&#39;t care</text><text class="s m" x="795" y="138">vectors in, neighbors out —</text><text class="s m" x="795" y="160">embed() is ONE swappable</text><text class="s m" x="795" y="182">function (lesson 05)</text><g transform="translate(680,75)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g><line class="arr" x1="310" y1="140" x2="346" y2="140"/><line class="arr" x1="620" y1="140" x2="676" y2="140"/><text class="s m" x="470" y="285">⚠️ the same-model rule: query and documents must use the SAME embedder — change it → re-embed everything</text></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-02-text-to-vectors/lessons/02-text-to-vectors/README.md">Read full lesson 02 →</a></p>
+</section>
+
+<section class="dsec" id="l03" style="--c:#2563eb">
+  <h2><span class="ln">3</span> 📐 Similarity</h2>
+  <p class="d">Direction beats distance — and the normalize-then-dot trick.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="40" width="420" height="130" rx="14"/><text class="t m" x="250" y="72">🧭 cosine: compare DIRECTIONS</text><text class="s m" x="250" y="100">10-page robot essay &amp; 1-line robot note</text><text class="s m" x="250" y="122">point the SAME way → 0.95 ✅ siblings</text><text class="s m" x="250" y="150">meaning is a direction; length is volume 📢</text><g transform="translate(40,40)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="dead" x="490" y="40" width="420" height="130" rx="14"/><text class="t m" x="700" y="72">📏 distance: compare POSITIONS</text><text class="s m" x="700" y="100">the essay &#39;stands far&#39; from the note →</text><text class="s m" x="700" y="122">fooled by length — wrong verdict for text</text><g transform="translate(490,40)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="box" x="190" y="200" width="560" height="70" rx="14"/><text class="t m" x="470" y="228">⚡ the trick: normalize at WRITE time → cosine = plain dot product at READ time</text><text class="s m" x="470" y="252">one line, hardware-fast — our cosine() is just sum(x·y) because _normalize already ran</text><g transform="translate(190,200)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-03-similarity/lessons/03-similarity/README.md">Read full lesson 03 →</a></p>
+</section>
+
+<section class="dsec" id="l04" style="--c:#2563eb">
+  <h2><span class="ln">4</span> 🏃 Nearest neighbors</h2>
+  <p class="d">Asking everyone vs the friendship map (HNSW) — the recall dial.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="dead" x="40" y="40" width="270" height="110" rx="14"/><text class="t m" x="175" y="72">🚶 brute force - exact</text><text class="s m" x="175" y="100">compare with ALL N seats</text><text class="s m" x="175" y="122">N=7k: fine · N=7M: 💀</text><g transform="translate(40,40)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="350" y="40" width="270" height="110" rx="14"/><text class="t m" x="485" y="72">🗺️ HNSW - friendship map</text><text class="s m" x="485" y="100">local friends + pen-pals across</text><text class="s m" x="485" y="122">the hall → log-ish greedy hops</text><g transform="translate(350,40)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="box" x="660" y="40" width="250" height="110" rx="14"/><text class="t m" x="785" y="72">🏘️ IVF - neighborhoods</text><text class="s m" x="785" y="100">pre-cluster districts; search</text><text class="s m" x="785" y="122">only the nearest few</text><g transform="translate(660,40)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g><rect class="soft" x="190" y="190" width="560" height="80" rx="14"/><text class="t m" x="470" y="220">🎯 the recall dial: speed ↔ % of TRUE neighbors found</text><text class="s m" x="470" y="246">95-99% recall at 100-1000× speedup is the standard trade — benchmarks without recall numbers are marketing</text><g transform="translate(190,190)"><circle r="11" class="nc"/><text class="nt" dy="4">4</text></g></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-04-nearest-neighbors/lessons/04-nearest-neighbors/README.md">Read full lesson 04 →</a></p>
+</section>
+
+<section class="dsec" id="l05" style="--c:#16a34a">
+  <h2><span class="ln">5</span> 🔬 Build a vector DB</h2>
+  <p class="d">70 honest lines: embed, cosine, store, filter, top-k.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="50" width="270" height="200" rx="14"/><text class="t m" x="175" y="82">1 🔢 embed()</text><text class="s m" x="175" y="110">hash words → 256 dims →</text><text class="s m" x="175" y="132">normalize · ← swap for a</text><text class="s m" x="175" y="154">model call HERE</text><text class="s m" x="175" y="190">embedder and store are</text><text class="s m" x="175" y="212">separate jobs — by design</text><g transform="translate(40,50)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="340" y="50" width="270" height="200" rx="14"/><text class="t m" x="475" y="82">2 📐 cosine()</text><text class="s m" x="475" y="110">one line: dot product</text><text class="s m" x="475" y="132">(normalize made it cheap)</text><g transform="translate(340,50)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="box" x="640" y="50" width="270" height="200" rx="14"/><text class="t m" x="775" y="82">3 🗄️ MiniVectorDB</text><text class="s m" x="775" y="110">add: embed + store</text><text class="s m" x="775" y="132">(id, vector, TEXT, stickers)</text><text class="s m" x="775" y="158">search: filter 🏷️ FIRST →</text><text class="s m" x="775" y="180">score → sort → top-k</text><text class="s m" x="775" y="212">missing on purpose: persistence,</text><text class="s m" x="775" y="234">deletes, ANN — your homework</text><g transform="translate(640,50)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g><text class="s m" x="470" y="285">~70 lines, zero dependencies — a database you can hold entirely in your head</text></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-05-build-a-vector-db/lessons/05-build-a-vector-db/README.md">Read full lesson 05 →</a></p>
+</section>
+
+<section class="dsec" id="l06" style="--c:#16a34a">
+  <h2><span class="ln">6</span> ✂️ Chunking &amp; metadata</h2>
+  <p class="d">Cards and colored stickers — the quality lever bigger than any index.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="40" width="200" height="90" rx="12"/><text class="t m" x="140" y="72">📚 400-page book</text><text class="s m" x="140" y="98">can&#39;t sit in one chair</text><rect class="box" x="300" y="40" width="300" height="90" rx="12"/><text class="t m" x="450" y="66">✂️ chunking - the craft</text><text class="s m" x="450" y="90">natural seams · self-contained ·</text><text class="s m" x="450" y="112">~hundreds of tokens · 10-15% overlap 🔁</text><g transform="translate(300,40)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="660" y="40" width="250" height="90" rx="12"/><text class="t m" x="785" y="66">🗂️ cards + stickers 🏷️</text><text class="s m" x="785" y="90">room:3A · kind:rules ·</text><text class="s m" x="785" y="112">source:handbook-p12 (receipts!)</text><g transform="translate(660,40)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><line class="arr" x1="240" y1="85" x2="296" y2="85"/><line class="arr" x1="600" y1="85" x2="656" y2="85"/><rect class="dead" x="40" y="170" width="420" height="100" rx="12"/><text class="s m" x="250" y="198">❌ too big: five topics, one murky seat</text><text class="s m" x="250" y="220">❌ too small: &#39;…it must be returned&#39; — WHAT must?</text><text class="s m" x="250" y="248">chunking moves quality 2-5× · indexes move it 1.1×</text><g transform="translate(40,170)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g><rect class="box" x="500" y="170" width="410" height="100" rx="12"/><text class="t m" x="705" y="198">🤝 hybrid search</text><text class="s m" x="705" y="224">meaning-search misses &#39;E-4012&#39;; keywords miss</text><text class="s m" x="705" y="246">synonyms — run BOTH, merge (RRF)</text><g transform="translate(500,170)"><circle r="11" class="nc"/><text class="nt" dy="4">4</text></g></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-06-chunking-metadata/lessons/06-chunking-metadata/README.md">Read full lesson 06 →</a></p>
+</section>
+
+<section class="dsec" id="l07" style="--c:#16a34a">
+  <h2><span class="ln">7</span> 📖 RAG wiring</h2>
+  <p class="d">The open-book exam, end to end — with OUR page-finder.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="soft" x="40" y="40" width="400" height="100" rx="12"/><text class="t m" x="240" y="66">🗂️ index time - once, on change</text><text class="s m" x="240" y="92">docs → ✂️ chunk → 🔢 embed → 🗄️ store</text><text class="s m" x="240" y="114">(re-index tonight, &#39;knows&#39; it tomorrow)</text><g transform="translate(40,40)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="500" y="40" width="410" height="100" rx="12"/><text class="t m" x="705" y="66">❓ question time - every query</text><text class="s m" x="705" y="92">embed the question (SAME model) → search k=4</text><text class="s m" x="705" y="114">(+ stickers 🏷️) → optional rerank 🧐</text><g transform="translate(500,40)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="box" x="190" y="170" width="560" height="100" rx="14"/><text class="t m" x="470" y="200">🪑 the desk: cards + &#39;answer ONLY from these, cite ids&#39;</text><text class="s m" x="470" y="226">→ ✅ grounded answer with receipts 🧾 (AI school L08-L10, now with YOUR page-finder)</text><text class="s m" x="470" y="252">debugging drill: bad answer? print the CARDS first — retrieval bug ≠ generation bug</text><g transform="translate(190,170)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g><line class="arr" x1="440" y1="90" x2="496" y2="90"/><line class="arr" x1="705" y1="140" x2="560" y2="166"/><line class="arr" x1="240" y1="140" x2="340" y2="166"/></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-07-rag-wiring/lessons/07-rag-wiring/README.md">Read full lesson 07 →</a></p>
+</section>
+
+<section class="dsec" id="l08" style="--c:#16a34a">
+  <h2><span class="ln">8</span> 🏬 The landscape</h2>
+  <p class="d">pgvector, Pinecone, Chroma, FAISS — picking without a bake-off.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="40" width="270" height="100" rx="12"/><text class="t m" x="175" y="68">🐘 pgvector</text><text class="s m" x="175" y="92">the library you already have —</text><text class="s m" x="175" y="114">SQL + vectors, one backup</text><g transform="translate(40,40)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="340" y="40" width="270" height="100" rx="12"/><text class="t m" x="475" y="68">☁️ managed - Pinecone &amp; co</text><text class="s m" x="475" y="92">the rented hall — scale without</text><text class="s m" x="475" y="114">ops (the AWS build-vs-rent call)</text><g transform="translate(340,40)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="box" x="640" y="40" width="270" height="100" rx="12"/><text class="t m" x="775" y="68">🧪 Chroma · Qdrant · LanceDB</text><text class="s m" x="775" y="92">the lab bench — developer-first,</text><text class="s m" x="775" y="114">embedded to mid-scale</text><g transform="translate(640,40)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g><rect class="box" x="190" y="165" width="270" height="100" rx="12"/><text class="t m" x="325" y="193">⚙️ FAISS · hnswlib</text><text class="s m" x="325" y="217">engine blocks, not databases —</text><text class="s m" x="325" y="239">max control, zero ops help</text><g transform="translate(190,165)"><circle r="11" class="nc"/><text class="nt" dy="4">4</text></g><rect class="box" x="490" y="165" width="270" height="100" rx="12"/><text class="t m" x="625" y="193">🔎 your old store, new tricks</text><text class="s m" x="625" y="217">OpenSearch/Redis/Mongo grew</text><text class="s m" x="625" y="239">a vector column — one less system</text><g transform="translate(490,165)"><circle r="11" class="nc"/><text class="nt" dy="4">5</text></g><text class="s m" x="470" y="292">the boring pick order: pgvector → embedded lab bench → managed/self-hosted at real scale · &lt;100k vectors? a loop is fine 😄</text></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-08-landscape/lessons/08-landscape/README.md">Read full lesson 08 →</a></p>
+</section>
+
+<footer>
+  Learn VectorDB School · <a href="index.html">Course home</a> · <a href="landscape.html">Landscape</a> ·
+  <a href="https://github.com/BaluRaut/learn-vectordb-school">GitHub</a>
+</footer>
+</div>
+</body>
+</html>
