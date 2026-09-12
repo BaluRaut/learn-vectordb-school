@@ -3,698 +3,140 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lesson diagrams — Learn Kubernetes School</title>
-<meta name="description" content="All 14 Kubernetes lessons as numbered entity & sequence diagrams — containers, pods, deployments, services, ingress, GitOps — on one page.">
+<title>Lesson diagrams — Learn VectorDB School</title>
+<meta name="description" content="All 8 vector database lessons as numbered diagrams — embeddings, similarity, ANN, chunking, RAG, landscape.">
+<meta property="og:title" content="Lesson diagrams — Learn VectorDB School">
+<meta property="og:description" content="All 8 vector database lessons as numbered diagrams — embeddings, similarity, ANN, chunking, RAG, landscape.">
+<meta property="og:image" content="https://baluraut.github.io/learn-vectordb-school/images/big-picture-4k.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <style>
-  :root {
-    --bg: #f8fafc; --card: #ffffff; --ink: #0f172a; --muted: #475569;
-    --line: #e2e8f0; --accent: #dc2626; --ok: #16a34a; --blue: #2563eb;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg: #0b1220; --card: #131c2e; --ink: #e2e8f0; --muted: #94a3b8; --line: #253349; }
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--ink); font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.6; }
-  .wrap { max-width:1280px; margin: 0 auto; padding: 28px 20px 60px; }
-  a { color: var(--blue); }
-  h1 { font-size: 1.9rem; line-height: 1.25; }
-  .sub { color: var(--muted); max-width: 74ch; }
-  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 6px; }
-  .toc a { border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 5px 12px; font-size: .82rem; color: var(--muted); text-decoration: none; }
-  .toc a:hover { color: var(--ink); border-color: var(--muted); }
-  .dsec { background: var(--card); border: 1px solid var(--line); border-top: 6px solid var(--c, var(--accent)); border-radius: 16px; padding: 22px 22px 16px; margin-top: 26px; scroll-margin-top: 16px; }
-  .dsec h2 { font-size: 1.25rem; display: flex; align-items: center; gap: 10px; }
-  .dsec h2 .ln { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--c, var(--accent)); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: .95rem; font-weight: 800; }
-  .dsec p.d { color: var(--muted); font-size: .95rem; margin: 6px 0 4px; }
-  .dsec svg { width: 100%; height: auto; display: block; margin-top: 10px; }
-  .dsec .foot { margin-top: 8px; font-size: .92rem; }
-  /* --- shared SVG diagram grammar --- */
-  .box  { fill: var(--card); stroke: var(--c, var(--accent)); stroke-width: 2; }
-  .soft { fill: var(--bg);  stroke: var(--line); stroke-width: 1.5; }
-  .dead { fill: var(--bg);  stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 6 5; }
-  .t  { font: 600 14px -apple-system, "Segoe UI", sans-serif; fill: var(--ink); }
-  .s  { font: 12px -apple-system, "Segoe UI", sans-serif; fill: var(--muted); }
-  .m  { text-anchor: middle; }
-  .arr  { stroke: #64748b; stroke-width: 2; fill: none; marker-end: url(#arw); }
-  .dash { stroke-dasharray: 6 5; }
-  .nc { fill: var(--c, var(--accent)); }
-  .nt { font: 700 12px -apple-system, sans-serif; fill: #fff; text-anchor: middle; }
-  footer { margin-top: 44px; border-top: 1px solid var(--line); padding-top: 16px; color: var(--muted); font-size: .88rem; }
-
+  :root { --bg:#f8fafc; --card:#fff; --ink:#0f172a; --muted:#475569; --line:#e2e8f0; --accent:#2563eb; --ok:#16a34a; --blue:#2563eb; --bad:#dc2626; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0b1220; --card:#131c2e; --ink:#e2e8f0; --muted:#94a3b8; --line:#253349; } }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink); font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; line-height:1.6; }
+  .wrap { max-width:1280px; margin:0 auto; padding:28px 20px 60px; }
   @media (min-width: 1660px) { .wrap { max-width: 1580px; } }
+  a { color:var(--blue); } h1 { font-size:2rem; line-height:1.25; } h2 { font-size:1.4rem; margin:44px 0 6px; }
+  .sub { color:var(--muted); max-width:74ch; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 8px; }
+  .chip { border:1px solid var(--line); background:var(--card); border-radius:999px; padding:6px 14px; font-size:.85rem; color:var(--muted); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; margin-top:16px; }
+  .lesson { background:var(--card); border:1px solid var(--line); border-top:5px solid var(--c,var(--accent)); border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:6px; }
+  .lesson .top { display:flex; align-items:center; gap:10px; }
+  .lesson .num { flex:none; width:30px; height:30px; border-radius:50%; background:var(--c,var(--accent)); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem; }
+  .lesson h3 { font-size:1.02rem; line-height:1.3; } .lesson .ana { color:var(--muted); font-size:.9rem; }
+  .lesson code { font-size:.78rem; background:var(--bg); border:1px solid var(--line); border-radius:6px; padding:1px 6px; }
+  .lesson a.go { margin-top:auto; font-weight:600; font-size:.9rem; text-decoration:none; } .lesson a.go+a.go { margin-top:0; } .lesson a.go:hover { text-decoration:underline; }
+  .callout { background:var(--card); border:1px solid var(--line); border-left:6px solid var(--ok); border-radius:14px; padding:18px 20px; margin-top:16px; }
+  pre { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px; overflow-x:auto; font-size:.88rem; margin-top:12px; }
+  .btn { display:inline-block; background:var(--accent); color:#fff; border-radius:10px; padding:10px 18px; text-decoration:none; font-weight:700; margin:14px 10px 0 0; }
+  .btn.alt { background:transparent; color:var(--ink); border:1px solid var(--line); }
+  .vs { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:14px; margin-top:16px; }
+  .vcol { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; } .vcol h3 { margin-bottom:8px; }
+  .vcol ul { margin-left:18px; color:var(--muted); font-size:.93rem; }
+  .toc { display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 6px; }
+  .toc a { border:1px solid var(--line); background:var(--card); border-radius:999px; padding:5px 12px; font-size:.82rem; color:var(--muted); text-decoration:none; }
+  .toc a:hover { color:var(--ink); border-color:var(--muted); }
+  .quad { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin-top:10px; }
+  .q { border:1px solid var(--line); border-radius:12px; padding:14px; }
+  .q h4 { margin-bottom:6px; font-size:.98rem; } .q ul { margin-left:18px; color:var(--muted); font-size:.92rem; }
+  .q.merit { border-top:4px solid var(--ok); } .q.demerit { border-top:4px solid var(--bad); }
+  .q.use { border-top:4px solid var(--blue); }
+  footer { margin-top:56px; border-top:1px solid var(--line); padding-top:18px; color:var(--muted); font-size:.88rem; }
+
+  .dsec { background:var(--card); border:1px solid var(--line); border-top:6px solid var(--c,var(--accent)); border-radius:16px; padding:22px 22px 16px; margin-top:26px; scroll-margin-top:16px; }
+  .dsec h2 { font-size:1.25rem; display:flex; align-items:center; gap:10px; }
+  .dsec h2 .ln { flex:none; width:32px; height:32px; border-radius:50%; background:var(--c,var(--accent)); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:.95rem; font-weight:800; }
+  .dsec p.d { color:var(--muted); font-size:.95rem; margin:6px 0 4px; }
+  .dsec svg { width:100%; height:auto; display:block; margin-top:10px; } .dsec .foot { margin-top:8px; font-size:.92rem; }
+  .box { fill:var(--card); stroke:var(--c,var(--accent)); stroke-width:2; }
+  .soft { fill:var(--bg); stroke:var(--line); stroke-width:1.5; }
+  .dead { fill:var(--bg); stroke:var(--muted); stroke-width:1.5; stroke-dasharray:6 5; }
+  .t { font:600 14px -apple-system,"Segoe UI",sans-serif; fill:var(--ink); }
+  .s { font:12px -apple-system,"Segoe UI",sans-serif; fill:var(--muted); } .m { text-anchor:middle; }
+  .arr { stroke:#64748b; stroke-width:2; fill:none; marker-end:url(#arw); } .dash { stroke-dasharray:6 5; }
+  .nc { fill:var(--c,var(--accent)); } .nt { font:700 12px -apple-system,sans-serif; fill:#fff; text-anchor:middle; }
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute"><defs>
-  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-    <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
-  </marker>
-</defs></svg>
+<svg width="0" height="0" style="position:absolute"><defs><marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs></svg>
 <div class="wrap">
-
 <header>
   <p><a href="index.html">← Back to the course home</a></p>
-  <h1>📐 The 26 lessons as diagrams</h1>
-  <p class="sub">Every lesson's core idea as one numbered entity/sequence diagram — follow the
-  circled numbers <b>1 → 2 → 3</b> in each box-and-arrow picture. For the full ELI5 story and
-  hands-on commands, open the lesson itself.</p>
+  <h1>📐 The 8 lessons as diagrams</h1>
+  <p class="sub">Blue = the idea (1–4) · green = for real (5–8). Follow the circled numbers.</p>
   <nav class="toc">
-    <a href="#l01">1 Containers</a><a href="#l02">2 Pods</a><a href="#l03">3 Deployments</a>
-    <a href="#l04">4 Services</a><a href="#l05">5 Namespaces</a><a href="#l06">6 Config &amp; Secrets</a>
-    <a href="#l07">7 Probes</a><a href="#l08">8 Resources</a><a href="#l09">9 Autoscaling</a>
-    <a href="#l10">10 Ingress</a><a href="#l11">11 Rollouts</a><a href="#l12">12 Storage</a>
-    <a href="#l13">13 Control plane</a><a href="#l14">14 CI/CD &amp; ArgoCD</a><a href="#l15">15 Multi-AZ</a><a href="#l16">16 Debugging</a><a href="#l17">17 RBAC</a><a href="#l18">18 Jobs</a><a href="#l19">19 NetPolicies</a><a href="#l20">20 Taints</a><a href="#l21">21 DaemonSets</a><a href="#l22">22 StatefulSets</a><a href="#l23">23 QoS</a><a href="#l24">24 Upgrades</a><a href="#l25">25 CRDs</a><a href="#l26">26 Observability</a>
+    <a href="#l01">1 Why vector DBs</a><a href="#l02">2 Text→vectors</a><a href="#l03">3 Similarity</a>
+    <a href="#l04">4 Neighbors</a><a href="#l05">5 Build</a><a href="#l06">6 Chunking</a>
+    <a href="#l07">7 RAG</a><a href="#l08">8 Landscape</a>
   </nav>
 </header>
 
-<!-- ══════════ 01 ══════════ -->
-<section class="dsec" id="l01" style="--c:#0ea5e9">
-  <h2><span class="ln">1</span> 🍱 Containers &amp; images — recipe → lunchbox → lunch</h2>
-  <p class="d">One recipe (Dockerfile) bakes one frozen lunchbox (image); every opened box (container) is identical.</p>
-  <svg viewBox="0 0 940 300" role="img" aria-label="Dockerfile builds an image, the image is pushed to a registry and run as identical containers">
-    <rect class="box" x="30" y="110" width="180" height="90" rx="12"/>
-    <text class="t m" x="120" y="148">📝 Dockerfile</text>
-    <text class="s m" x="120" y="170">the recipe card</text>
-    <rect class="box" x="290" y="110" width="190" height="90" rx="12"/>
-    <text class="t m" x="385" y="148">🧊 Image</text>
-    <text class="s m" x="385" y="170">school-api:v1 — frozen box</text>
-    <rect class="box" x="620" y="30" width="290" height="80" rx="12"/>
-    <text class="t m" x="765" y="63">🗄️ Registry (ECR)</text>
-    <text class="s m" x="765" y="85">the shelf where images wait</text>
-    <rect class="box" x="620" y="160" width="290" height="110" rx="12"/>
-    <text class="t m" x="765" y="185">🏃 Running containers</text>
-    <rect class="soft" x="640" y="200" width="78" height="50" rx="8"/><text class="s m" x="679" y="230">box 1</text>
-    <rect class="soft" x="726" y="200" width="78" height="50" rx="8"/><text class="s m" x="765" y="230">box 2</text>
-    <rect class="soft" x="812" y="200" width="78" height="50" rx="8"/><text class="s m" x="851" y="230">box 3</text>
-    <line class="arr" x1="210" y1="155" x2="286" y2="155"/>
-    <g transform="translate(248,138)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <text class="s m" x="248" y="182">docker build</text>
-    <line class="arr" x1="480" y1="130" x2="616" y2="80"/>
-    <g transform="translate(548,88)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <text class="s m" x="548" y="130">docker push</text>
-    <line class="arr" x1="480" y1="180" x2="616" y2="212"/>
-    <g transform="translate(548,216)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-    <text class="s m" x="548" y="252">docker run ×3 — identical</text>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-01-containers/lessons/01-containers/README.md">Read full lesson 01 →</a></p>
+<section class="dsec" id="l01" style="--c:#2563eb">
+  <h2><span class="ln">1</span> 🗺️ Why vector DBs</h2>
+  <p class="d">The library sorted by MEANING — keywords match strings, not ideas.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="dead" x="40" y="60" width="340" height="180" rx="14"/><text class="t m" x="210" y="95">📇 keyword catalog</text><text class="s m" x="210" y="125">&#39;kind to animals&#39; →</text><text class="s m" x="210" y="147">match exact strings →</text><text class="s m" x="210" y="169">❌ &#39;Every Living Thing&#39; missed</text><text class="s m" x="210" y="205">strings, not meaning</text><g transform="translate(40,60)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="440" y="40" width="460" height="220" rx="14"/><text class="t m" x="670" y="75">🗺️ the meaning hall — a vector DB</text><rect class="soft" x="465" y="95" width="190" height="60" rx="10"/><text class="s m" x="560" y="120">1 seat the question</text><text class="s m" x="560" y="142">(embed it)</text><rect class="soft" x="680" y="95" width="195" height="60" rx="10"/><text class="s m" x="777" y="120">2 find nearest seats</text><text class="s m" x="777" y="142">fast, at any scale</text><rect class="soft" x="565" y="175" width="210" height="60" rx="10"/><text class="s m" x="670" y="200">3 ✅ &#39;Every Living Thing&#39;</text><text class="s m" x="670" y="222">zero shared words!</text><line class="arr" x1="655" y1="125" x2="676" y2="125"/><line class="arr" x1="777" y1="155" x2="700" y2="171"/><g transform="translate(440,40)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><text class="s m" x="470" y="290">store millions of seats · return the k nearest · with stickers 🏷️ — that&#39;s the whole product</text></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-01-why-vector-db/lessons/01-why-vector-db/README.md">Read full lesson 01 →</a></p>
 </section>
 
-<!-- ══════════ 02 ══════════ -->
-<section class="dsec" id="l02" style="--c:#0ea5e9">
-  <h2><span class="ln">2</span> 🪑 Pods — one desk, one address, replace don't repair</h2>
-  <p class="d">Kubernetes never runs a bare container — it always sits at a desk (Pod) with its own IP and shared shelf.</p>
-  <svg viewBox="0 0 940 300" role="img" aria-label="A pod contains containers sharing a volume and one IP; a dead pod is replaced by a new pod with a new IP">
-    <rect class="box" x="40" y="115" width="180" height="80" rx="12"/>
-    <text class="t m" x="130" y="148">🌐 Cluster network</text>
-    <text class="s m" x="130" y="170">callers</text>
-    <rect class="box" x="300" y="40" width="380" height="230" rx="14"/>
-    <text class="t m" x="490" y="68">🪑 Pod — IP 10.0.4.7</text>
-    <rect class="soft" x="325" y="90" width="155" height="80" rx="10"/>
-    <text class="t m" x="402" y="123">📦 school-api</text>
-    <text class="s m" x="402" y="145">main container</text>
-    <rect class="soft" x="500" y="90" width="155" height="80" rx="10"/>
-    <text class="t m" x="577" y="123">📦 sidecar</text>
-    <text class="s m" x="577" y="145">optional helper</text>
-    <rect class="soft" x="390" y="200" width="200" height="50" rx="10"/>
-    <text class="t m" x="490" y="230">🗄️ shared volume</text>
-    <line class="arr" x1="402" y1="170" x2="452" y2="198"/>
-    <line class="arr" x1="577" y1="170" x2="528" y2="198"/>
-    <line class="arr" x1="220" y1="155" x2="296" y2="155"/>
-    <g transform="translate(258,138)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <text class="s m" x="258" y="182">talks to the Pod's IP</text>
-    <g transform="translate(490,185)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <rect class="dead" x="730" y="115" width="180" height="90" rx="12"/>
-    <text class="t m" x="820" y="150">🪑 NEW Pod</text>
-    <text class="s m" x="820" y="172">new name, new IP 10.0.9.9</text>
-    <line class="arr dash" x1="680" y1="155" x2="726" y2="155"/>
-    <g transform="translate(703,138)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-    <text class="s m" x="820" y="230">💥 desks are replaced, never repaired</text>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-02-pods/lessons/02-pods/README.md">Read full lesson 02 →</a></p>
+<section class="dsec" id="l02" style="--c:#2563eb">
+  <h2><span class="ln">2</span> 🔢 Text to vectors</h2>
+  <p class="d">Giving every text a seat — our honest toy vs learned embeddings.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="soft" x="40" y="40" width="270" height="200" rx="14"/><text class="t m" x="175" y="72">🔤 toy: count words</text><text class="s m" x="175" y="100">hash each word → bump 1 of</text><text class="s m" x="175" y="122">256 buckets → normalize</text><rect class="dead" x="65" y="145" width="220" height="70" rx="10"/><text class="s m" x="175" y="172">😬 nearsighted: shared WORDS</text><text class="s m" x="175" y="194">&#39;pupils&#39; ≠ &#39;students&#39; (0.00!)</text><g transform="translate(40,40)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="350" y="40" width="270" height="200" rx="14"/><text class="t m" x="485" y="72">🧠 real: embedding model</text><text class="s m" x="485" y="100">a trained network → 768-3072</text><text class="s m" x="485" y="122">dims where directions = MEANING</text><rect class="soft" x="375" y="145" width="220" height="70" rx="10"/><text class="s m" x="485" y="172">✅ &#39;pupils&#39; sits beside &#39;students&#39;</text><text class="s m" x="485" y="194">across phrasing &amp; languages</text><g transform="translate(350,40)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="box" x="680" y="75" width="230" height="130" rx="14"/><text class="t m" x="795" y="110">🗺️ the DB doesn&#39;t care</text><text class="s m" x="795" y="138">vectors in, neighbors out —</text><text class="s m" x="795" y="160">embed() is ONE swappable</text><text class="s m" x="795" y="182">function (lesson 05)</text><g transform="translate(680,75)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g><line class="arr" x1="310" y1="140" x2="346" y2="140"/><line class="arr" x1="620" y1="140" x2="676" y2="140"/><text class="s m" x="470" y="285">⚠️ the same-model rule: query and documents must use the SAME embedder — change it → re-embed everything</text></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-02-text-to-vectors/lessons/02-text-to-vectors/README.md">Read full lesson 02 →</a></p>
 </section>
 
-<!-- ══════════ 03 ══════════ -->
-<section class="dsec" id="l03" style="--c:#0ea5e9">
-  <h2><span class="ln">3</span> 🧑‍🏫 Deployments — declare a wish, the monitor enforces it forever</h2>
-  <p class="d">You say "always 2"; the ReplicaSet counts non-stop and replaces anything that dies.</p>
-  <svg viewBox="0 0 940 320" role="img" aria-label="You declare replicas 2 to a Deployment, its ReplicaSet keeps two pods alive and replaces a crashed one">
-    <rect class="box" x="30" y="40" width="190" height="80" rx="12"/>
-    <text class="t m" x="125" y="73">🧑‍🏫 You declare</text>
-    <text class="s m" x="125" y="95">replicas: 2 · image: v5</text>
-    <rect class="box" x="30" y="190" width="190" height="80" rx="12"/>
-    <text class="t m" x="125" y="223">Deployment</text>
-    <text class="s m" x="125" y="245">school-api</text>
-    <rect class="box" x="300" y="190" width="210" height="80" rx="12"/>
-    <text class="t m" x="405" y="223">ReplicaSet</text>
-    <text class="s m" x="405" y="245">the monitor · count = 2</text>
-    <rect class="box" x="600" y="40" width="180" height="70" rx="12"/>
-    <text class="t m" x="690" y="68">🪑 pod …abc12</text>
-    <text class="s m" x="690" y="90">💥 crashes!</text>
-    <rect class="box" x="600" y="200" width="180" height="70" rx="12"/>
-    <text class="t m" x="690" y="228">🪑 pod …def34</text>
-    <text class="s m" x="690" y="250">healthy</text>
-    <rect class="dead" x="740" y="118" width="180" height="70" rx="12"/>
-    <text class="t m" x="830" y="146">🪑 pod …xyz99</text>
-    <text class="s m" x="830" y="168">auto-created replacement</text>
-    <line class="arr" x1="125" y1="120" x2="125" y2="186"/>
-    <g transform="translate(108,153)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <line class="arr" x1="220" y1="230" x2="296" y2="230"/>
-    <g transform="translate(258,213)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <line class="arr" x1="510" y1="205" x2="596" y2="90"/>
-    <line class="arr" x1="510" y1="230" x2="596" y2="230"/>
-    <g transform="translate(553,196)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-    <text class="s m" x="553" y="280">claims pods by label app: school-api</text>
-    <line class="arr dash" x1="510" y1="205" x2="736" y2="153"/>
-    <g transform="translate(620,160)"><circle r="11" class="nc"/><text class="nt" dy="4">4</text></g>
-    <text class="s m" x="623" y="135">sees 1 missing → makes a new one</text>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-03-deployments/lessons/03-deployments/README.md">Read full lesson 03 →</a></p>
+<section class="dsec" id="l03" style="--c:#2563eb">
+  <h2><span class="ln">3</span> 📐 Similarity</h2>
+  <p class="d">Direction beats distance — and the normalize-then-dot trick.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="40" width="420" height="130" rx="14"/><text class="t m" x="250" y="72">🧭 cosine: compare DIRECTIONS</text><text class="s m" x="250" y="100">10-page robot essay &amp; 1-line robot note</text><text class="s m" x="250" y="122">point the SAME way → 0.95 ✅ siblings</text><text class="s m" x="250" y="150">meaning is a direction; length is volume 📢</text><g transform="translate(40,40)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="dead" x="490" y="40" width="420" height="130" rx="14"/><text class="t m" x="700" y="72">📏 distance: compare POSITIONS</text><text class="s m" x="700" y="100">the essay &#39;stands far&#39; from the note →</text><text class="s m" x="700" y="122">fooled by length — wrong verdict for text</text><g transform="translate(490,40)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="box" x="190" y="200" width="560" height="70" rx="14"/><text class="t m" x="470" y="228">⚡ the trick: normalize at WRITE time → cosine = plain dot product at READ time</text><text class="s m" x="470" y="252">one line, hardware-fast — our cosine() is just sum(x·y) because _normalize already ran</text><g transform="translate(190,200)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-03-similarity/lessons/03-similarity/README.md">Read full lesson 03 →</a></p>
 </section>
 
-<!-- ══════════ 04 ══════════ -->
 <section class="dsec" id="l04" style="--c:#2563eb">
-  <h2><span class="ln">4</span> ☎️ Services — one number that never changes</h2>
-  <p class="d">Pods get new IPs all the time; callers dial the Service name and it forwards to whoever is present.</p>
-  <svg viewBox="0 0 940 300" role="img" aria-label="A caller pod calls the service by DNS name; the service load-balances to current ready pods and drops dead ones">
-    <rect class="box" x="30" y="110" width="210" height="90" rx="12"/>
-    <text class="t m" x="135" y="145">🐍 analytics pod</text>
-    <text class="s m" x="135" y="167">calls http://school-api</text>
-    <rect class="box" x="330" y="110" width="240" height="90" rx="12"/>
-    <text class="t m" x="450" y="140">☎️ Service school-api</text>
-    <text class="s m" x="450" y="162">stable IP + DNS · port 80 → 3000</text>
-    <rect class="box" x="700" y="30" width="180" height="70" rx="12"/>
-    <text class="t m" x="790" y="58">🪑 pod 10.0.4.7</text>
-    <text class="s m" x="790" y="80">ready</text>
-    <rect class="box" x="700" y="120" width="180" height="70" rx="12"/>
-    <text class="t m" x="790" y="148">🪑 pod 10.0.9.2</text>
-    <text class="s m" x="790" y="170">ready</text>
-    <rect class="dead" x="700" y="215" width="180" height="60" rx="12"/>
-    <text class="t m" x="790" y="240">💀 old pod</text>
-    <text class="s m" x="790" y="260">gone — auto-removed</text>
-    <line class="arr" x1="240" y1="155" x2="326" y2="155"/>
-    <g transform="translate(283,138)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <text class="s m" x="283" y="185">DNS finds the Service</text>
-    <line class="arr" x1="570" y1="135" x2="696" y2="70"/>
-    <line class="arr" x1="570" y1="160" x2="696" y2="152"/>
-    <g transform="translate(633,95)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <text class="s m" x="628" y="200">picks a READY pod by label</text>
-    <line class="arr dash" x1="570" y1="185" x2="696" y2="242"/>
-    <g transform="translate(633,225)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-04-services/lessons/04-services/README.md">Read full lesson 04 →</a></p>
+  <h2><span class="ln">4</span> 🏃 Nearest neighbors</h2>
+  <p class="d">Asking everyone vs the friendship map (HNSW) — the recall dial.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="dead" x="40" y="40" width="270" height="110" rx="14"/><text class="t m" x="175" y="72">🚶 brute force - exact</text><text class="s m" x="175" y="100">compare with ALL N seats</text><text class="s m" x="175" y="122">N=7k: fine · N=7M: 💀</text><g transform="translate(40,40)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="350" y="40" width="270" height="110" rx="14"/><text class="t m" x="485" y="72">🗺️ HNSW - friendship map</text><text class="s m" x="485" y="100">local friends + pen-pals across</text><text class="s m" x="485" y="122">the hall → log-ish greedy hops</text><g transform="translate(350,40)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="box" x="660" y="40" width="250" height="110" rx="14"/><text class="t m" x="785" y="72">🏘️ IVF - neighborhoods</text><text class="s m" x="785" y="100">pre-cluster districts; search</text><text class="s m" x="785" y="122">only the nearest few</text><g transform="translate(660,40)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g><rect class="soft" x="190" y="190" width="560" height="80" rx="14"/><text class="t m" x="470" y="220">🎯 the recall dial: speed ↔ % of TRUE neighbors found</text><text class="s m" x="470" y="246">95-99% recall at 100-1000× speedup is the standard trade — benchmarks without recall numbers are marketing</text><g transform="translate(190,190)"><circle r="11" class="nc"/><text class="nt" dy="4">4</text></g></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-04-nearest-neighbors/lessons/04-nearest-neighbors/README.md">Read full lesson 04 →</a></p>
 </section>
 
-<!-- ══════════ 05 ══════════ -->
-<section class="dsec" id="l05" style="--c:#2563eb">
-  <h2><span class="ln">5</span> 🚪 Namespaces — classrooms inside one building</h2>
-  <p class="d">One shared cluster, partitioned into rooms — names only need to be unique inside a room.</p>
-  <svg viewBox="0 0 940 330" role="img" aria-label="One cluster containing the school, kube-system and default namespaces with their contents">
-    <rect class="box" x="30" y="30" width="880" height="240" rx="14"/>
-    <text class="t" x="55" y="60">🏫 One Kubernetes cluster — the building</text>
-    <rect class="soft" x="55" y="80" width="330" height="170" rx="12"/>
-    <text class="t m" x="220" y="108">🚪 namespace: school</text>
-    <text class="s m" x="220" y="135">Deployments: school-api, analytics</text>
-    <text class="s m" x="220" y="157">Services ×2 · ConfigMap · Secret</text>
-    <text class="s m" x="220" y="179">HPA · Ingress</text>
-    <g transform="translate(220,215)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <text class="s m" x="220" y="243">our room — everything in this repo</text>
-    <rect class="soft" x="415" y="80" width="240" height="170" rx="12"/>
-    <text class="t m" x="535" y="108">🚪 kube-system</text>
-    <text class="s m" x="535" y="135">the school office:</text>
-    <text class="s m" x="535" y="157">CoreDNS · metrics-server</text>
-    <g transform="translate(535,215)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <text class="s m" x="535" y="243">Kubernetes' own machinery</text>
-    <rect class="soft" x="685" y="80" width="200" height="170" rx="12"/>
-    <text class="t m" x="785" y="108">🚪 default</text>
-    <text class="s m" x="785" y="135">experiments land here</text>
-    <text class="s m" x="785" y="157">if you forget -n 😅</text>
-    <g transform="translate(785,215)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-    <text class="s m" x="470" y="305">Same name in two rooms is fine — "Aarav from 3A" vs "Aarav from 3B" · delete a room = clean sweep of only that room</text>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-05-namespaces/lessons/05-namespaces/README.md">Read full lesson 05 →</a></p>
+<section class="dsec" id="l05" style="--c:#16a34a">
+  <h2><span class="ln">5</span> 🔬 Build a vector DB</h2>
+  <p class="d">70 honest lines: embed, cosine, store, filter, top-k.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="50" width="270" height="200" rx="14"/><text class="t m" x="175" y="82">1 🔢 embed()</text><text class="s m" x="175" y="110">hash words → 256 dims →</text><text class="s m" x="175" y="132">normalize · ← swap for a</text><text class="s m" x="175" y="154">model call HERE</text><text class="s m" x="175" y="190">embedder and store are</text><text class="s m" x="175" y="212">separate jobs — by design</text><g transform="translate(40,50)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="340" y="50" width="270" height="200" rx="14"/><text class="t m" x="475" y="82">2 📐 cosine()</text><text class="s m" x="475" y="110">one line: dot product</text><text class="s m" x="475" y="132">(normalize made it cheap)</text><g transform="translate(340,50)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="box" x="640" y="50" width="270" height="200" rx="14"/><text class="t m" x="775" y="82">3 🗄️ MiniVectorDB</text><text class="s m" x="775" y="110">add: embed + store</text><text class="s m" x="775" y="132">(id, vector, TEXT, stickers)</text><text class="s m" x="775" y="158">search: filter 🏷️ FIRST →</text><text class="s m" x="775" y="180">score → sort → top-k</text><text class="s m" x="775" y="212">missing on purpose: persistence,</text><text class="s m" x="775" y="234">deletes, ANN — your homework</text><g transform="translate(640,50)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g><text class="s m" x="470" y="285">~70 lines, zero dependencies — a database you can hold entirely in your head</text></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-05-build-a-vector-db/lessons/05-build-a-vector-db/README.md">Read full lesson 05 →</a></p>
 </section>
 
-<!-- ══════════ 06 ══════════ -->
-<section class="dsec" id="l06" style="--c:#2563eb">
-  <h2><span class="ln">6</span> 🔑 ConfigMaps &amp; Secrets — settings live outside the lunchbox</h2>
-  <p class="d">Same image everywhere; the notice board (config) and locker key (secret) are injected at start-up.</p>
-  <svg viewBox="0 0 940 320" role="img" aria-label="ConfigMap and Secret are injected into the pod as environment variables while the image stays unchanged">
-    <rect class="box" x="40" y="50" width="230" height="90" rx="12"/>
-    <text class="t m" x="155" y="83">📌 ConfigMap</text>
-    <text class="s m" x="155" y="105">PORT: 3000 · APP_VERSION</text>
-    <rect class="box" x="40" y="190" width="230" height="90" rx="12"/>
-    <text class="t m" x="155" y="223">🔑 Secret</text>
-    <text class="s m" x="155" y="245">DATABASE_URL (password!)</text>
-    <rect class="box" x="420" y="90" width="270" height="160" rx="14"/>
-    <text class="t m" x="555" y="120">🪑 Pod at start-up</text>
-    <rect class="soft" x="445" y="140" width="220" height="45" rx="8"/>
-    <text class="s m" x="555" y="168">env: PORT, DATABASE_URL…</text>
-    <rect class="soft" x="445" y="195" width="220" height="40" rx="8"/>
-    <text class="s m" x="555" y="221">app reads process.env</text>
-    <rect class="box" x="740" y="40" width="170" height="80" rx="12"/>
-    <text class="t m" x="825" y="73">🍱 Image</text>
-    <text class="s m" x="825" y="95">identical in dev &amp; prod</text>
-    <line class="arr" x1="270" y1="95" x2="416" y2="150"/>
-    <g transform="translate(343,105)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <text class="s m" x="330" y="80">envFrom: configMapRef</text>
-    <line class="arr" x1="270" y1="235" x2="416" y2="190"/>
-    <g transform="translate(343,228)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <text class="s m" x="330" y="262">secretKeyRef (never in git)</text>
-    <line class="arr" x1="740" y1="105" x2="694" y2="130"/>
-    <g transform="translate(717,100)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-    <text class="s m" x="555" y="290">change settings → restart pods → same image, new behaviour</text>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-06-configmaps-secrets/lessons/06-configmaps-secrets/README.md">Read full lesson 06 →</a></p>
+<section class="dsec" id="l06" style="--c:#16a34a">
+  <h2><span class="ln">6</span> ✂️ Chunking &amp; metadata</h2>
+  <p class="d">Cards and colored stickers — the quality lever bigger than any index.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="40" width="200" height="90" rx="12"/><text class="t m" x="140" y="72">📚 400-page book</text><text class="s m" x="140" y="98">can&#39;t sit in one chair</text><rect class="box" x="300" y="40" width="300" height="90" rx="12"/><text class="t m" x="450" y="66">✂️ chunking - the craft</text><text class="s m" x="450" y="90">natural seams · self-contained ·</text><text class="s m" x="450" y="112">~hundreds of tokens · 10-15% overlap 🔁</text><g transform="translate(300,40)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="660" y="40" width="250" height="90" rx="12"/><text class="t m" x="785" y="66">🗂️ cards + stickers 🏷️</text><text class="s m" x="785" y="90">room:3A · kind:rules ·</text><text class="s m" x="785" y="112">source:handbook-p12 (receipts!)</text><g transform="translate(660,40)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><line class="arr" x1="240" y1="85" x2="296" y2="85"/><line class="arr" x1="600" y1="85" x2="656" y2="85"/><rect class="dead" x="40" y="170" width="420" height="100" rx="12"/><text class="s m" x="250" y="198">❌ too big: five topics, one murky seat</text><text class="s m" x="250" y="220">❌ too small: &#39;…it must be returned&#39; — WHAT must?</text><text class="s m" x="250" y="248">chunking moves quality 2-5× · indexes move it 1.1×</text><g transform="translate(40,170)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g><rect class="box" x="500" y="170" width="410" height="100" rx="12"/><text class="t m" x="705" y="198">🤝 hybrid search</text><text class="s m" x="705" y="224">meaning-search misses &#39;E-4012&#39;; keywords miss</text><text class="s m" x="705" y="246">synonyms — run BOTH, merge (RRF)</text><g transform="translate(500,170)"><circle r="11" class="nc"/><text class="nt" dy="4">4</text></g></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-06-chunking-metadata/lessons/06-chunking-metadata/README.md">Read full lesson 06 →</a></p>
 </section>
 
-<!-- ══════════ 07 ══════════ -->
-<section class="dsec" id="l07" style="--c:#7c3aed">
-  <h2><span class="ln">7</span> 🙋 Health probes — two questions, two very different consequences</h2>
-  <p class="d">Liveness failure restarts the container; readiness failure only pauses its traffic.</p>
-  <svg viewBox="0 0 940 320" role="img" aria-label="Kubelet asks liveness and readiness endpoints; liveness failure restarts, readiness failure removes from service">
-    <rect class="box" x="40" y="115" width="200" height="90" rx="12"/>
-    <text class="t m" x="140" y="150">🧑‍🏫 kubelet</text>
-    <text class="s m" x="140" y="172">asks every few seconds</text>
-    <rect class="box" x="330" y="40" width="240" height="80" rx="12"/>
-    <text class="t m" x="450" y="72">GET /healthz — alive?</text>
-    <text class="s m" x="450" y="94">liveness probe</text>
-    <rect class="box" x="330" y="200" width="240" height="80" rx="12"/>
-    <text class="t m" x="450" y="232">GET /readyz — ready?</text>
-    <text class="s m" x="450" y="254">readiness probe</text>
-    <rect class="box" x="660" y="40" width="250" height="80" rx="12"/>
-    <text class="t m" x="785" y="72">🔄 fails ×3 → RESTART</text>
-    <text class="s m" x="785" y="94">same pod, fresh container</text>
-    <rect class="box" x="660" y="200" width="250" height="80" rx="12"/>
-    <text class="t m" x="785" y="232">⏸️ fails → NO traffic</text>
-    <text class="s m" x="785" y="254">out of the Service list, no restart</text>
-    <line class="arr" x1="240" y1="140" x2="326" y2="85"/>
-    <g transform="translate(283,95)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <line class="arr" x1="240" y1="180" x2="326" y2="235"/>
-    <g transform="translate(283,225)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <line class="arr" x1="570" y1="80" x2="656" y2="80"/>
-    <g transform="translate(613,63)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-    <line class="arr" x1="570" y1="240" x2="656" y2="240"/>
-    <g transform="translate(613,223)"><circle r="11" class="nc"/><text class="nt" dy="4">4</text></g>
-    <text class="s m" x="470" y="305">mixing the two up is one of the most common Kubernetes mistakes!</text>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-07-health-probes/lessons/07-health-probes/README.md">Read full lesson 07 →</a></p>
+<section class="dsec" id="l07" style="--c:#16a34a">
+  <h2><span class="ln">7</span> 📖 RAG wiring</h2>
+  <p class="d">The open-book exam, end to end — with OUR page-finder.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="soft" x="40" y="40" width="400" height="100" rx="12"/><text class="t m" x="240" y="66">🗂️ index time - once, on change</text><text class="s m" x="240" y="92">docs → ✂️ chunk → 🔢 embed → 🗄️ store</text><text class="s m" x="240" y="114">(re-index tonight, &#39;knows&#39; it tomorrow)</text><g transform="translate(40,40)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="500" y="40" width="410" height="100" rx="12"/><text class="t m" x="705" y="66">❓ question time - every query</text><text class="s m" x="705" y="92">embed the question (SAME model) → search k=4</text><text class="s m" x="705" y="114">(+ stickers 🏷️) → optional rerank 🧐</text><g transform="translate(500,40)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="box" x="190" y="170" width="560" height="100" rx="14"/><text class="t m" x="470" y="200">🪑 the desk: cards + &#39;answer ONLY from these, cite ids&#39;</text><text class="s m" x="470" y="226">→ ✅ grounded answer with receipts 🧾 (AI school L08-L10, now with YOUR page-finder)</text><text class="s m" x="470" y="252">debugging drill: bad answer? print the CARDS first — retrieval bug ≠ generation bug</text><g transform="translate(190,170)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g><line class="arr" x1="440" y1="90" x2="496" y2="90"/><line class="arr" x1="705" y1="140" x2="560" y2="166"/><line class="arr" x1="240" y1="140" x2="340" y2="166"/></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-07-rag-wiring/lessons/07-rag-wiring/README.md">Read full lesson 07 →</a></p>
 </section>
 
-<!-- ══════════ 08 ══════════ -->
-<section class="dsec" id="l08" style="--c:#7c3aed">
-  <h2><span class="ln">8</span> 🍛 Requests &amp; limits — promised plates and capped seconds</h2>
-  <p class="d">Requests are reservations the scheduler counts; limits are hard caps with different penalties for CPU vs memory.</p>
-  <svg viewBox="0 0 940 320" role="img" aria-label="Scheduler places pods on a node only where requests fit; CPU over limit throttles, memory over limit kills">
-    <rect class="box" x="40" y="110" width="210" height="100" rx="12"/>
-    <text class="t m" x="145" y="145">📋 Scheduler</text>
-    <text class="s m" x="145" y="167">the cook counting plates</text>
-    <rect class="box" x="330" y="40" width="330" height="250" rx="14"/>
-    <text class="t m" x="495" y="68">🖥️ Node — 2 CPU · 4 Gi</text>
-    <rect class="soft" x="355" y="85" width="280" height="60" rx="10"/>
-    <text class="s" x="370" y="110">🪑 school-api — req 100m / 128Mi</text>
-    <text class="s" x="370" y="130">limit 500m / 256Mi</text>
-    <rect class="soft" x="355" y="155" width="280" height="60" rx="10"/>
-    <text class="s" x="370" y="180">🪑 analytics — req 100m / 128Mi</text>
-    <text class="s" x="370" y="200">limit 500m / 256Mi</text>
-    <rect class="dead" x="355" y="225" width="280" height="50" rx="10"/>
-    <text class="s m" x="495" y="255">🟩 unreserved — room for more pods</text>
-    <rect class="box" x="720" y="60" width="190" height="90" rx="12"/>
-    <text class="t m" x="815" y="90">🍲 CPU over limit</text>
-    <text class="s m" x="815" y="112">→ throttled (slower)</text>
-    <rect class="box" x="720" y="185" width="190" height="90" rx="12"/>
-    <text class="t m" x="815" y="215">🫃 RAM over limit</text>
-    <text class="s m" x="815" y="237">→ OOMKilled 💀</text>
-    <line class="arr" x1="250" y1="160" x2="326" y2="160"/>
-    <g transform="translate(288,143)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <text class="s m" x="288" y="190">places pods only where requests fit</text>
-    <g transform="translate(700,105)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <g transform="translate(700,230)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-08-resources/lessons/08-resources/README.md">Read full lesson 08 →</a></p>
-</section>
-
-<!-- ══════════ 09 ══════════ -->
-<section class="dsec" id="l09" style="--c:#7c3aed">
-  <h2><span class="ln">9</span> 🚌 Autoscaling — the transport manager watches the buses</h2>
-  <p class="d">Above 70% average CPU it adds pods (max 5); when quiet it parks them (never below 2).</p>
-  <svg viewBox="0 0 940 300" role="img" aria-label="Metrics server feeds the HPA which edits the deployment replica count, creating or removing pods">
-    <rect class="box" x="30" y="110" width="200" height="90" rx="12"/>
-    <text class="t m" x="130" y="145">📊 metrics-server</text>
-    <text class="s m" x="130" y="167">measures pod CPU</text>
-    <rect class="box" x="300" y="110" width="230" height="90" rx="12"/>
-    <text class="t m" x="415" y="140">🧑‍💼 HPA</text>
-    <text class="s m" x="415" y="162">target 70% · min 2 · max 5</text>
-    <rect class="box" x="600" y="110" width="180" height="90" rx="12"/>
-    <text class="t m" x="690" y="145">Deployment</text>
-    <text class="s m" x="690" y="167">replicas: ← edited</text>
-    <rect class="box" x="830" y="30" width="80" height="50" rx="10"/><text class="s m" x="870" y="60">🚌 1</text>
-    <rect class="box" x="830" y="95" width="80" height="50" rx="10"/><text class="s m" x="870" y="125">🚌 2</text>
-    <rect class="dead" x="830" y="160" width="80" height="50" rx="10"/><text class="s m" x="870" y="190">🚌 3</text>
-    <rect class="dead" x="830" y="225" width="80" height="50" rx="10"/><text class="s m" x="870" y="255">🚌 4</text>
-    <line class="arr" x1="230" y1="155" x2="296" y2="155"/>
-    <g transform="translate(263,138)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <line class="arr" x1="530" y1="155" x2="596" y2="155"/>
-    <g transform="translate(563,138)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <text class="s m" x="563" y="185">85% → scale up!</text>
-    <line class="arr" x1="780" y1="140" x2="826" y2="100"/>
-    <line class="arr dash" x1="780" y1="170" x2="826" y2="195"/>
-    <g transform="translate(803,150)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-    <text class="s m" x="470" y="280">scale-up is fast · scale-down is slow on purpose (don't park the bus the second the rain stops)</text>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-09-autoscaling/lessons/09-autoscaling/README.md">Read full lesson 09 →</a></p>
-</section>
-
-<!-- ══════════ 10 ══════════ -->
-<section class="dsec" id="l10" style="--c:#ea580c">
-  <h2><span class="ln">10</span> 🏫 Ingress — one gate, routed by the signboard</h2>
-  <p class="d">One load balancer for everything; the URL path decides which Service the visitor reaches.</p>
-  <svg viewBox="0 0 940 320" role="img" aria-label="Internet traffic enters one ALB created by the ingress controller and is routed by path to two services and their pods">
-    <rect class="box" x="30" y="120" width="170" height="80" rx="12"/>
-    <text class="t m" x="115" y="153">🌍 Internet</text>
-    <text class="s m" x="115" y="175">parent's browser</text>
-    <rect class="box" x="270" y="120" width="200" height="80" rx="12"/>
-    <text class="t m" x="370" y="150">🏫 Main gate — ALB</text>
-    <text class="s m" x="370" y="172">built by the controller</text>
-    <rect class="box" x="540" y="120" width="150" height="80" rx="12"/>
-    <text class="t m" x="615" y="153">🪧 path?</text>
-    <text class="s m" x="615" y="175">the signboard</text>
-    <rect class="box" x="740" y="40" width="180" height="80" rx="12"/>
-    <text class="t m" x="830" y="70">☎️ analytics svc</text>
-    <text class="s m" x="830" y="92">/analytics/*</text>
-    <rect class="box" x="740" y="200" width="180" height="80" rx="12"/>
-    <text class="t m" x="830" y="230">☎️ school-api svc</text>
-    <text class="s m" x="830" y="252">/* everything else</text>
-    <line class="arr" x1="200" y1="160" x2="266" y2="160"/>
-    <g transform="translate(233,143)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <line class="arr" x1="470" y1="160" x2="536" y2="160"/>
-    <g transform="translate(503,143)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <line class="arr" x1="690" y1="140" x2="736" y2="90"/>
-    <g transform="translate(713,105)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-    <line class="arr" x1="690" y1="180" x2="736" y2="230"/>
-    <g transform="translate(713,215)"><circle r="11" class="nc"/><text class="nt" dy="4">4</text></g>
-    <text class="s m" x="470" y="300">specific paths first (/analytics before /) · health-checks reuse lesson 07's /healthz · one gate = one bill + one TLS setup</text>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-10-ingress/lessons/10-ingress/README.md">Read full lesson 10 →</a></p>
-</section>
-
-<!-- ══════════ 11 ══════════ -->
-<section class="dsec" id="l11" style="--c:#ea580c">
-  <h2><span class="ln">11</span> ⚽ Rollouts — substitute one player at a time, keep the bench</h2>
-  <p class="d">A full team is always on the field; the old version stays benched for instant rollback.</p>
-  <svg viewBox="0 0 940 330" role="img" aria-label="During a rolling update a new pod warms up and only replaces an old one when ready; the old ReplicaSet stays for rollback">
-    <rect class="box" x="30" y="50" width="250" height="200" rx="14"/>
-    <text class="t m" x="155" y="80">⏱️ during rollout</text>
-    <rect class="soft" x="55" y="100" width="200" height="40" rx="8"/><text class="s m" x="155" y="125">🪑 v1 pod — playing ✅</text>
-    <rect class="soft" x="55" y="150" width="200" height="40" rx="8"/><text class="s m" x="155" y="175">🪑 v1 pod — playing ✅</text>
-    <rect class="dead" x="55" y="200" width="200" height="40" rx="8"/><text class="s m" x="155" y="225">🏃 v2 pod — warming up</text>
-    <g transform="translate(300,220)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <text class="s m" x="330" y="255">maxSurge: 1 extra allowed</text>
-    <rect class="box" x="420" y="50" width="230" height="110" rx="12"/>
-    <text class="t m" x="535" y="85">🙋 readiness gate</text>
-    <text class="s m" x="535" y="107">v2 gets traffic ONLY</text>
-    <text class="s m" x="535" y="127">after /readyz says yes</text>
-    <g transform="translate(535,145)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <rect class="box" x="710" y="50" width="200" height="110" rx="12"/>
-    <text class="t m" x="810" y="80">✅ done — all v2</text>
-    <text class="s m" x="810" y="102">old pods left one by one,</text>
-    <text class="s m" x="810" y="122">never below full team</text>
-    <g transform="translate(810,140)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-    <rect class="dead" x="420" y="210" width="490" height="70" rx="12"/>
-    <text class="t m" x="665" y="238">🪑 old ReplicaSet v1 — scaled to 0, kept on the bench</text>
-    <text class="s m" x="665" y="260">kubectl rollout undo = "come back on!" — a 10-second rollback</text>
-    <line class="arr" x1="280" y1="105" x2="416" y2="105"/>
-    <line class="arr" x1="650" y1="105" x2="706" y2="105"/>
-    <line class="arr dash" x1="665" y1="210" x2="665" y2="165"/>
-    <g transform="translate(690,188)"><circle r="11" class="nc"/><text class="nt" dy="4">4</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-11-rollouts/lessons/11-rollouts/README.md">Read full lesson 11 →</a></p>
-</section>
-
-<!-- ══════════ 12 ══════════ -->
-<section class="dsec" id="l12" style="--c:#ea580c">
-  <h2><span class="ln">12</span> 📚 Storage — backpacks vanish, library shelves survive</h2>
-  <p class="d">A PVC gives disposable pods a durable shelf; this repo goes one further and rents the library (RDS).</p>
-  <svg viewBox="0 0 940 330" role="img" aria-label="A dying pod's claim survives; a new pod using the same claim finds the same data; the app pods use external RDS">
-    <rect class="dead" x="40" y="50" width="190" height="80" rx="12"/>
-    <text class="t m" x="135" y="82">🪑 postgres pod v1</text>
-    <text class="s m" x="135" y="104">💥 dies (backpack gone)</text>
-    <rect class="box" x="40" y="200" width="190" height="80" rx="12"/>
-    <text class="t m" x="135" y="232">🪑 postgres pod v2</text>
-    <text class="s m" x="135" y="254">new desk, same books</text>
-    <rect class="box" x="330" y="125" width="190" height="80" rx="12"/>
-    <text class="t m" x="425" y="157">📝 PVC</text>
-    <text class="s m" x="425" y="179">"I claim 10 Gi of shelf"</text>
-    <rect class="box" x="590" y="125" width="200" height="80" rx="12"/>
-    <text class="t m" x="690" y="152">📚 PV = EBS disk</text>
-    <text class="s m" x="690" y="174">outlives every pod</text>
-    <line class="arr dash" x1="230" y1="105" x2="326" y2="150"/>
-    <g transform="translate(278,110)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <line class="arr" x1="230" y1="230" x2="326" y2="180"/>
-    <g transform="translate(278,222)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <text class="s m" x="278" y="260">same claim → same data</text>
-    <line class="arr" x1="520" y1="165" x2="586" y2="165"/>
-    <g transform="translate(553,148)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-    <rect class="box" x="620" y="235" width="290" height="80" rx="12"/>
-    <text class="t m" x="765" y="265">🏛️ RDS — the rented library</text>
-    <text class="s m" x="765" y="287">what THIS repo uses (terraform/rds.tf)</text>
-    <g transform="translate(600,275)"><circle r="11" class="nc"/><text class="nt" dy="4">4</text></g>
-    <text class="s m" x="300" y="305">rule of thumb: stateless pods in the cluster, state in managed services outside</text>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-12-storage/lessons/12-storage/README.md">Read full lesson 12 →</a></p>
-</section>
-
-<!-- ══════════ 13 ══════════ -->
-<section class="dsec" id="l13" style="--c:#16a34a">
-  <h2><span class="ln">13</span> 🏢 Under the hood — what <code>kubectl apply</code> really does</h2>
-  <p class="d">Five office roles, one register, one endless loop: wish → record → reconcile → run → report.</p>
-  <svg viewBox="0 0 940 360" role="img" aria-label="kubectl talks to the API server which writes to etcd; controllers create pods, the scheduler assigns nodes, kubelet runs containers and reports back">
-    <rect class="box" x="30" y="40" width="160" height="80" rx="12"/>
-    <text class="t m" x="110" y="72">🧑 kubectl</text>
-    <text class="s m" x="110" y="94">"I wish: 2 pods"</text>
-    <rect class="box" x="270" y="40" width="190" height="80" rx="12"/>
-    <text class="t m" x="365" y="72">🧑‍💼 API server</text>
-    <text class="s m" x="365" y="94">the ONLY door</text>
-    <rect class="box" x="540" y="40" width="160" height="80" rx="12"/>
-    <text class="t m" x="620" y="72">📖 etcd</text>
-    <text class="s m" x="620" y="94">the sacred register</text>
-    <rect class="box" x="270" y="200" width="190" height="80" rx="12"/>
-    <text class="t m" x="365" y="232">🔍 controllers</text>
-    <text class="s m" x="365" y="254">wish ≠ reality? fix it</text>
-    <rect class="box" x="540" y="200" width="160" height="80" rx="12"/>
-    <text class="t m" x="620" y="232">🗓️ scheduler</text>
-    <text class="s m" x="620" y="254">picks the best node</text>
-    <rect class="box" x="750" y="200" width="160" height="80" rx="12"/>
-    <text class="t m" x="830" y="232">🧑‍🏫 kubelet</text>
-    <text class="s m" x="830" y="254">runs it on the node</text>
-    <line class="arr" x1="190" y1="80" x2="266" y2="80"/>
-    <g transform="translate(228,63)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <line class="arr" x1="460" y1="80" x2="536" y2="80"/>
-    <g transform="translate(498,63)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <text class="s m" x="498" y="110">wish written down</text>
-    <line class="arr" x1="365" y1="196" x2="365" y2="124"/>
-    <g transform="translate(348,160)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-    <text class="s m" x="255" y="165">sees Deployment →</text>
-    <text class="s m" x="255" y="183">creates Pods (unassigned)</text>
-    <line class="arr" x1="620" y1="196" x2="620" y2="124"/>
-    <g transform="translate(603,160)"><circle r="11" class="nc"/><text class="nt" dy="4">4</text></g>
-    <text class="s m" x="700" y="165">assigns each pod</text>
-    <text class="s m" x="700" y="183">a node</text>
-    <line class="arr" x1="750" y1="240" x2="704" y2="240"/>
-    <g transform="translate(727,223)"><circle r="11" class="nc"/><text class="nt" dy="4">5</text></g>
-    <line class="arr dash" x1="830" y1="200" x2="464" y2="90"/>
-    <g transform="translate(650,140)"><circle r="11" class="nc"/><text class="nt" dy="4">6</text></g>
-    <text class="s m" x="470" y="330">5: kubelet pulls the image 🍱, starts the container, runs the probes 🙋 · 6: "running &amp; ready" reported back → kubectl get pods shows 2/2 🎉</text>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-13-under-the-hood/lessons/13-under-the-hood/README.md">Read full lesson 13 →</a></p>
-</section>
-
-<!-- ══════════ 14 ══════════ -->
-<section class="dsec" id="l14" style="--c:#16a34a">
-  <h2><span class="ln">14</span> 🤖 Bonus: CI/CD &amp; GitOps — the homework robot and the caretaker robot</h2>
-  <p class="d">CI tests &amp; builds on every push; ArgoCD lives inside the cluster and keeps it matching the plan book (git).</p>
-  <svg viewBox="0 0 940 360" role="img" aria-label="git push triggers CI to test, build and store the image; git holds the manifests; ArgoCD pulls from git and syncs and self-heals the cluster">
-    <rect class="box" x="30" y="40" width="150" height="80" rx="12"/>
-    <text class="t m" x="105" y="72">🧑‍💻 dev</text>
-    <text class="s m" x="105" y="94">git push</text>
-    <rect class="box" x="250" y="40" width="330" height="130" rx="14"/>
-    <text class="t m" x="415" y="68">📮 Robot 1 — CI pipeline</text>
-    <text class="s m" x="415" y="95">✅ test → 🍱 build → 🗄️ push to ECR</text>
-    <text class="s m" x="415" y="117">→ ✍️ manual approval</text>
-    <rect class="box" x="250" y="240" width="330" height="80" rx="12"/>
-    <text class="t m" x="415" y="270">📖 git repo — the master plan</text>
-    <text class="s m" x="415" y="292">k8s/ manifests = single source of truth</text>
-    <rect class="box" x="660" y="60" width="250" height="260" rx="14"/>
-    <text class="t m" x="785" y="90">🏫 Kubernetes cluster</text>
-    <rect class="soft" x="685" y="110" width="200" height="80" rx="10"/>
-    <text class="t m" x="785" y="140">🤖 Robot 2 — ArgoCD</text>
-    <text class="s m" x="785" y="162">lives INSIDE, no outside key</text>
-    <rect class="soft" x="685" y="210" width="200" height="60" rx="10"/>
-    <text class="s m" x="785" y="245">🪑 school pods</text>
-    <line class="arr" x1="180" y1="80" x2="246" y2="80"/>
-    <g transform="translate(213,63)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <line class="arr" x1="415" y1="170" x2="415" y2="236"/>
-    <g transform="translate(398,203)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <text class="s m" x="300" y="207">CI commits the new image tag</text>
-    <line class="arr" x1="685" y1="150" x2="580" y2="270" marker-end="url(#arw)"/>
-    <g transform="translate(630,215)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-    <text class="s m" x="655" y="245">pulls &amp; compares every ~3 min</text>
-    <line class="arr" x1="785" y1="190" x2="785" y2="206"/>
-    <g transform="translate(810,198)"><circle r="11" class="nc"/><text class="nt" dy="4">4</text></g>
-    <text class="s m" x="470" y="345">4: sync + self-heal — hand-edits get reverted, deploys = git commits, rollback = git revert · the book always wins 📖</text>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-14-deploy-gitops/lessons/14-deploy-gitops/README.md">Read full lesson 14 →</a></p>
-</section>
-
-<!-- 15 -->
-<section class="dsec" id="l15" style="--c:#0d9488">
-  <h2><span class="ln">15</span> 🏫🏫 Bonus: Multi-AZ &amp; the scaling ladder</h2>
-  <p class="d">Never seat the whole class in one building — and climb the cheapest rung first on exam day.</p>
-  <svg viewBox="0 0 940 330" role="img" aria-label="An ALB sends traffic to nodes spread across two availability zones; the scaling ladder: HPA adds pods, cluster autoscaler adds nodes, topology spread crosses buildings, PDB keeps a minimum">
-    <rect class="box" x="300" y="30" width="330" height="60" rx="12"/>
-    <text class="t m" x="465" y="55">🌍 ALB — stands outside all buildings</text>
-    <text class="s m" x="465" y="77">sends visitors wherever is healthy</text>
-    <rect class="soft" x="50" y="130" width="360" height="160" rx="12"/>
-    <text class="t m" x="230" y="158">🏫 building A — AZ a</text>
-    <rect class="box" x="75" y="175" width="150" height="95" rx="10"/>
-    <text class="s m" x="150" y="205">🖥️ desk</text>
-    <text class="s m" x="150" y="227">🪑 api-1</text>
-    <text class="s m" x="150" y="249">🪑 analytics-1</text>
-    <rect class="dead" x="245" y="175" width="145" height="95" rx="10"/>
-    <text class="s m" x="317" y="205">🖥️ new desk</text>
-    <text class="s m" x="317" y="227">added by the</text>
-    <text class="s m" x="317" y="249">autoscaler</text>
-    <g transform="translate(245,175)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g>
-    <rect class="soft" x="440" y="130" width="270" height="160" rx="12"/>
-    <text class="t m" x="575" y="158">🏫 building B — AZ b</text>
-    <rect class="box" x="465" y="175" width="220" height="95" rx="10"/>
-    <text class="s m" x="575" y="205">🖥️ desk</text>
-    <text class="s m" x="575" y="227">🪑 api-2 · 🪑 analytics-2</text>
-    <line class="arr" x1="400" y1="90" x2="250" y2="126"/>
-    <line class="arr" x1="530" y1="90" x2="580" y2="126"/>
-    <line class="arr dash" x1="230" y1="295" x2="560" y2="295"/>
-    <g transform="translate(395,295)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-    <text class="s m" x="395" y="322">topology spread: copies across buildings — one fire ≠ down</text>
-    <g transform="translate(150,160)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g>
-    <rect class="soft" x="740" y="110" width="180" height="200" rx="12"/>
-    <text class="t m" x="830" y="140">🪜 the ladder</text>
-    <text class="s m" x="830" y="168">1 HPA: more pods — seconds</text>
-    <text class="s m" x="830" y="192">2 autoscaler: more desks — minutes</text>
-    <text class="s m" x="830" y="216">3 spread: across buildings</text>
-    <text class="s m" x="830" y="240">4 PDB: never all away at once</text>
-    <text class="s m" x="830" y="272">Pending pods = kids standing —</text>
-    <text class="s m" x="830" y="292">the autoscaler's signal</text>
-    <g transform="translate(740,110)"><circle r="11" class="nc"/><text class="nt" dy="4">4</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-15-multi-az-scaling/lessons/15-multi-az-scaling/README.md">Read full lesson 15 →</a></p>
-</section>
-
-<!-- 16 -->
-<section class="dsec" id="l16" style="--c:#be123c">
-  <h2><span class="ln">16</span> 🩺 Debugging — the nurse's triage chart</h2>
-  <p class="d">Whatever walks in: describe first, Events always, logs --previous for crash loops.</p>
-  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="110" width="170" height="80" rx="12"/><text class="t m" x="125" y="145">🤒 sick pod</text><text class="s m" x="125" y="170">something is wrong</text><rect class="box" x="280" y="100" width="220" height="100" rx="12"/><text class="t m" x="390" y="135">🩺 the nurse asks:</text><text class="s m" x="390" y="160">1 describe → EVENTS</text><text class="s m" x="390" y="182">2 logs --previous · 3 exec</text><line class="arr" x1="210" y1="150" x2="276" y2="150"/><g transform="translate(243,133)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="soft" x="580" y="30" width="330" height="55" rx="10"/><text class="s m" x="745" y="52">Pending 🪑 — no desk fits: requests? taints?</text><text class="s m" x="745" y="74">cluster full? (L08 · L15 · L20)</text><rect class="soft" x="580" y="95" width="330" height="55" rx="10"/><text class="s m" x="745" y="117">ImagePullBackOff 🍱 — wrong label, missing</text><text class="s m" x="745" y="139">tag, or no registry permission (AWS L05)</text><rect class="soft" x="580" y="160" width="330" height="55" rx="10"/><text class="s m" x="745" y="182">CrashLoopBackOff 💥 — starts, dies, repeats:</text><text class="s m" x="745" y="204">logs --previous first, then config (L06)</text><rect class="soft" x="580" y="225" width="330" height="55" rx="10"/><text class="s m" x="745" y="247">OOMKilled 🫃 / Service silent ☎️ — limit hit,</text><text class="s m" x="745" y="269">or selector ≠ labels: get endpointslices (L04)</text><line class="arr" x1="500" y1="150" x2="576" y2="150"/><g transform="translate(538,133)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><text class="s m" x="538" y="180">match the symptom</text><text class="s m" x="300" y="250">the drill never changes:</text><text class="s m" x="300" y="272">describe → logs → events → exec</text><g transform="translate(160,261)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-16-debugging/lessons/16-debugging/README.md">Read full lesson 16 →</a></p>
-</section>
-
-<!-- 17 -->
-<section class="dsec" id="l17" style="--c:#be123c">
-  <h2><span class="ln">17</span> 🪪 RBAC — hall passes</h2>
-  <p class="d">Roles are passes, bindings hand them over, ServiceAccounts are the robots' cards.</p>
-  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="100" width="220" height="100" rx="12"/><text class="t m" x="150" y="135">👥 who</text><text class="s m" x="150" y="160">person · group ·</text><text class="s m" x="150" y="182">🤖 ServiceAccount (pod card)</text><rect class="box" x="330" y="100" width="200" height="100" rx="12"/><text class="t m" x="430" y="135">🔗 RoleBinding</text><text class="s m" x="430" y="160">hands the pass over</text><rect class="box" x="600" y="40" width="310" height="90" rx="12"/><text class="t m" x="755" y="72">🪪 Role — one room</text><text class="s m" x="755" y="96">get/list pods in school</text><rect class="box" x="600" y="160" width="310" height="90" rx="12"/><text class="t m" x="755" y="192">🏫 ClusterRole — whole building</text><text class="s m" x="755" y="216">view · edit · admin · cluster-admin 🗝️</text><line class="arr" x1="260" y1="150" x2="326" y2="150"/><g transform="translate(293,133)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><line class="arr" x1="530" y1="130" x2="596" y2="90"/><line class="arr" x1="530" y1="170" x2="596" y2="200"/><g transform="translate(563,133)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><text class="s m" x="475" y="275">the API server checks the pass on EVERY request — no pass, no entry · test: kubectl auth can-i --as=…</text><g transform="translate(105,275)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-17-rbac/lessons/17-rbac/README.md">Read full lesson 17 →</a></p>
-</section>
-
-<!-- 18 -->
-<section class="dsec" id="l18" style="--c:#be123c">
-  <h2><span class="ln">18</span> ⏰ Jobs &amp; CronJobs — homework and the bell</h2>
-  <p class="d">The bell creates homework; homework creates a kid; the kid finishes and that's the point.</p>
-  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="100" width="230" height="110" rx="12"/><text class="t m" x="155" y="135">🔔 CronJob</text><text class="s m" x="155" y="160">schedule: 0 2 * * *</text><text class="s m" x="155" y="182">suspend: true = off-switch</text><rect class="box" x="350" y="100" width="200" height="110" rx="12"/><text class="t m" x="450" y="135">📝 Job</text><text class="s m" x="450" y="160">tonight&#39;s homework</text><text class="s m" x="450" y="182">backoffLimit: 2 retries</text><rect class="box" x="630" y="100" width="180" height="110" rx="12"/><text class="t m" x="720" y="135">🪑 pod</text><text class="s m" x="720" y="160">pg_dump → upload</text><text class="s m" x="720" y="182">then EXITS 0</text><line class="arr" x1="270" y1="155" x2="346" y2="155"/><g transform="translate(308,138)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><text class="s m" x="308" y="185">on schedule</text><line class="arr" x1="550" y1="155" x2="626" y2="155"/><g transform="translate(588,138)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="soft" x="90" y="240" width="760" height="45" rx="10"/><text class="s m" x="470" y="268">✅ Completed — kept for autopsy, tidied by history limits 🧹 · fire one now: kubectl create job --from=cronjob/school-db-backup</text><g transform="translate(90,240)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-18-jobs-cronjobs/lessons/18-jobs-cronjobs/README.md">Read full lesson 18 →</a></p>
-</section>
-
-<!-- 19 -->
-<section class="dsec" id="l19" style="--c:#be123c">
-  <h2><span class="ln">19</span> 🚫📝 NetworkPolicies — passing-notes rules</h2>
-  <p class="d">Default-deny first, then exactly the conversations the app needs.</p>
-  <svg viewBox="0 0 940 300" role="img"><rect class="dead" x="40" y="60" width="250" height="90" rx="12"/><text class="t m" x="165" y="95">😳 default</text><text class="s m" x="165" y="120">every pod whispers to</text><text class="s m" x="165" y="142">every pod — even the DB</text><rect class="box" x="360" y="40" width="250" height="80" rx="12"/><text class="t m" x="485" y="70">1 default-deny</text><text class="s m" x="485" y="94">no notes at all (selects every pod)</text><rect class="box" x="360" y="135" width="250" height="80" rx="12"/><text class="t m" x="485" y="165">2 allow exactly what&#39;s needed</text><text class="s m" x="485" y="189">analytics → api :3000 · gate → apps</text><line class="arr" x1="290" y1="105" x2="356" y2="80"/><line class="arr" x1="290" y1="105" x2="356" y2="175"/><g transform="translate(323,88)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="680" y="80" width="230" height="110" rx="12"/><text class="t m" x="795" y="115">🚫 anything else</text><text class="s m" x="795" y="140">note intercepted —</text><text class="s m" x="795" y="162">dropped silently</text><line class="arr" x1="610" y1="130" x2="676" y2="130"/><g transform="translate(643,113)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><text class="s m" x="475" y="265">⚠️ needs a CNI that enforces policies (Calico / VPC CNI switch) — no enforcer = rules silently ignored: always TEST</text><g transform="translate(105,265)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-19-network-policies/lessons/19-network-policies/README.md">Read full lesson 19 →</a></p>
-</section>
-
-<!-- 20 -->
-<section class="dsec" id="l20" style="--c:#be123c">
-  <h2><span class="ln">20</span> 🎫 Taints &amp; affinity — assigned seating</h2>
-  <p class="d">Signs on desks push away; chits permit; wishes attract; anti-affinity separates twins.</p>
-  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="50" width="260" height="100" rx="12"/><text class="t m" x="170" y="85">💎 GPU desk</text><text class="s m" x="170" y="110">taint: gpu=true:NoSchedule</text><text class="s m" x="170" y="132">the sign that repels</text><rect class="box" x="40" y="180" width="260" height="90" rx="12"/><text class="t m" x="170" y="212">🖥️ normal desks</text><text class="s m" x="170" y="236">no signs — anyone sits</text><rect class="box" x="420" y="50" width="240" height="100" rx="12"/><text class="t m" x="540" y="85">🤖 ML pod</text><text class="s m" x="540" y="110">toleration 🎫 + nodeAffinity:</text><text class="s m" x="540" y="132">allowed AND attracted</text><rect class="box" x="420" y="180" width="240" height="90" rx="12"/><text class="t m" x="540" y="212">🪑 ordinary pod</text><text class="s m" x="540" y="236">no chit → repelled ❌</text><line class="arr" x1="420" y1="100" x2="304" y2="100"/><g transform="translate(362,83)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><line class="arr" x1="420" y1="225" x2="304" y2="225"/><g transform="translate(362,208)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="soft" x="720" y="90" width="190" height="130" rx="12"/><text class="s m" x="815" y="120">👯 anti-affinity:</text><text class="s m" x="815" y="144">never both twins</text><text class="s m" x="815" y="166">on one desk —</text><text class="s m" x="815" y="188">HA at desk level</text><g transform="translate(720,90)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-20-taints-affinity/lessons/20-taints-affinity/README.md">Read full lesson 20 →</a></p>
-</section>
-
-<!-- 21 -->
-<section class="dsec" id="l21" style="--c:#be123c">
-  <h2><span class="ln">21</span> 🧯 DaemonSets — one on every floor</h2>
-  <p class="d">No replica count: the node list IS the count. New desk, new extinguisher, automatically.</p>
-  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="90" width="230" height="110" rx="12"/><text class="t m" x="155" y="125">🧯 DaemonSet</text><text class="s m" x="155" y="150">one per desk, always —</text><text class="s m" x="155" y="172">no replica count: nodes ARE it</text><rect class="soft" x="340" y="40" width="180" height="90" rx="12"/><text class="s m" x="430" y="70">🖥️ desk 1</text><text class="s m" x="430" y="94">🪑 apps + 🧯</text><rect class="soft" x="340" y="150" width="180" height="90" rx="12"/><text class="s m" x="430" y="180">🖥️ desk 2</text><text class="s m" x="430" y="204">🪑 apps + 🧯</text><rect class="dead" x="560" y="90" width="200" height="100" rx="12"/><text class="s m" x="660" y="120">🖥️ NEW desk</text><text class="s m" x="660" y="144">(autoscaler, L15)</text><text class="s m" x="660" y="166">🧯 appears by itself</text><line class="arr" x1="270" y1="120" x2="336" y2="85"/><line class="arr" x1="270" y1="160" x2="336" y2="190"/><g transform="translate(303,138)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><line class="arr dash" x1="520" y1="140" x2="556" y2="140"/><g transform="translate(538,123)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><text class="s m" x="470" y="265">you already run them: kube-proxy (L04&#39;s routing!) and the CNI live in kube-system as DaemonSets · log collectors next (L26)</text><g transform="translate(105,265)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-21-daemonsets/lessons/21-daemonsets/README.md">Read full lesson 21 →</a></p>
-</section>
-
-<!-- 22 -->
-<section class="dsec" id="l22" style="--c:#be123c">
-  <h2><span class="ln">22</span> 🏷️ StatefulSets — desks with name plates</h2>
-  <p class="d">Sticky name, sticky drawer, ordered arrival — the whole difference from a Deployment.</p>
-  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="90" width="240" height="110" rx="12"/><text class="t m" x="160" y="125">🏷️ StatefulSet</text><text class="s m" x="160" y="150">named, ordered kids:</text><text class="s m" x="160" y="172">postgres-0, then -1, then -2</text><rect class="box" x="360" y="90" width="220" height="110" rx="12"/><text class="t m" x="470" y="125">🪑 postgres-0</text><text class="s m" x="470" y="150">dies → replacement has</text><text class="s m" x="470" y="172">the SAME name</text><rect class="box" x="660" y="90" width="240" height="110" rx="12"/><text class="t m" x="780" y="125">🗄️ PVC data-postgres-0</text><text class="s m" x="780" y="150">ITS OWN drawer — survives</text><text class="s m" x="780" y="172">the pod, always reattaches</text><line class="arr" x1="280" y1="145" x2="356" y2="145"/><g transform="translate(318,128)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><line class="arr" x1="580" y1="145" x2="656" y2="145"/><g transform="translate(618,128)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="soft" x="90" y="235" width="760" height="50" rx="10"/><text class="s m" x="470" y="258">☎️ headless Service: reach postgres-0 BY NAME, no load-balancing · HA needs an operator (L25) —</text><text class="s m" x="470" y="278">production stance unchanged: rent the library (RDS, L12)</text><g transform="translate(90,235)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-22-statefulsets/lessons/22-statefulsets/README.md">Read full lesson 22 →</a></p>
-</section>
-
-<!-- 23 -->
-<section class="dsec" id="l23" style="--c:#be123c">
-  <h2><span class="ln">23</span> 🍽️ QoS &amp; evictions — who leaves first</h2>
-  <p class="d">BestEffort, then over-promise Burstable, then Guaranteed — your requests ARE your ranking.</p>
-  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="90" width="250" height="110" rx="12"/><text class="t m" x="165" y="125">🖥️ desk under pressure</text><text class="s m" x="165" y="150">memory running out —</text><text class="s m" x="165" y="172">kubelet must free space</text><rect class="dead" x="380" y="30" width="250" height="70" rx="12"/><text class="s m" x="505" y="58">🥉 BestEffort — no requests at all</text><text class="s m" x="505" y="80">EVICTED FIRST</text><rect class="soft" x="380" y="115" width="250" height="70" rx="12"/><text class="s m" x="505" y="143">🥈 Burstable — requests &lt; limits</text><text class="s m" x="505" y="165">next (our pods live here)</text><rect class="box" x="380" y="200" width="250" height="70" rx="12"/><text class="s m" x="505" y="228">🥇 Guaranteed — requests == limits</text><text class="s m" x="505" y="250">evicted LAST</text><line class="arr" x1="290" y1="120" x2="376" y2="65"/><g transform="translate(333,95)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><line class="arr" x1="290" y1="145" x2="376" y2="150"/><g transform="translate(333,168)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><line class="arr dash" x1="290" y1="180" x2="376" y2="235"/><rect class="soft" x="700" y="115" width="210" height="90" rx="12"/><text class="s m" x="805" y="145">👮 PriorityClass:</text><text class="s m" x="805" y="167">system staff basically</text><text class="s m" x="805" y="189">never leaves</text><g transform="translate(700,115)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-23-qos-evictions/lessons/23-qos-evictions/README.md">Read full lesson 23 →</a></p>
-</section>
-
-<!-- 24 -->
-<section class="dsec" id="l24" style="--c:#be123c">
-  <h2><span class="ln">24</span> 🏗️ Cluster upgrades — renovating while open</h2>
-  <p class="d">Office first, then desk by desk: cordon, drain (PDBs on guard), replace, uncordon.</p>
-  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="90" width="230" height="110" rx="12"/><text class="t m" x="155" y="125">🏢 1 office first</text><text class="s m" x="155" y="150">EKS control plane —</text><text class="s m" x="155" y="172">one Terraform change</text><rect class="box" x="340" y="40" width="160" height="70" rx="10"/><text class="s m" x="420" y="68">🚧 cordon</text><text class="s m" x="420" y="90">no new kids</text><rect class="box" x="340" y="125" width="160" height="70" rx="10"/><text class="s m" x="420" y="153">🚚 drain</text><text class="s m" x="420" y="175">PDB guards 🍽️</text><rect class="box" x="340" y="210" width="160" height="70" rx="10"/><text class="s m" x="420" y="238">🖥️ replace desk</text><text class="s m" x="420" y="260">fresh EC2 + kubelet</text><line class="arr" x1="270" y1="145" x2="336" y2="75"/><g transform="translate(303,105)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><line class="arr" x1="420" y1="110" x2="420" y2="121"/><line class="arr" x1="420" y1="195" x2="420" y2="206"/><rect class="box" x="570" y="125" width="150" height="70" rx="10"/><text class="s m" x="645" y="153">✅ uncordon</text><text class="s m" x="645" y="175">next classroom</text><line class="arr" x1="500" y1="245" x2="566" y2="175"/><g transform="translate(533,215)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="soft" x="760" y="90" width="150" height="140" rx="12"/><text class="s m" x="835" y="120">📶 skew rule:</text><text class="s m" x="835" y="142">desks may trail</text><text class="s m" x="835" y="164">the office,</text><text class="s m" x="835" y="186">never lead ·</text><text class="s m" x="835" y="208">one minor at a time</text><g transform="translate(760,90)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-24-cluster-upgrades/lessons/24-cluster-upgrades/README.md">Read full lesson 24 →</a></p>
-</section>
-
-<!-- 25 -->
-<section class="dsec" id="l25" style="--c:#be123c">
-  <h2><span class="ln">25</span> 🤖 CRDs &amp; operators — new words for the office</h2>
-  <p class="d">A word in the register plus a robot who makes it true — ArgoCD demystified.</p>
-  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="90" width="250" height="110" rx="12"/><text class="t m" x="165" y="125">📖 CRD</text><text class="s m" x="165" y="150">teach the office a new word:</text><text class="s m" x="165" y="172">kind: BackupPlan + grammar</text><rect class="box" x="370" y="90" width="220" height="110" rx="12"/><text class="t m" x="480" y="125">🏢 office / etcd</text><text class="s m" x="480" y="150">stores your wishes —</text><text class="s m" x="480" y="172">kubectl &amp; RBAC just work</text><rect class="box" x="670" y="90" width="240" height="110" rx="12"/><text class="t m" x="790" y="125">🤖 controller</text><text class="s m" x="790" y="150">watches the word, reconciles</text><text class="s m" x="790" y="172">forever — L03&#39;s loop, your noun</text><line class="arr" x1="290" y1="145" x2="366" y2="145"/><g transform="translate(328,128)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><line class="arr dash" x1="670" y1="145" x2="594" y2="145"/><g transform="translate(632,128)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="soft" x="90" y="235" width="760" height="50" rx="10"/><text class="s m" x="470" y="258">CRD + controller + expertise = an OPERATOR · you&#39;ve used them all along: ArgoCD&#39;s Application,</text><text class="s m" x="470" y="278">cert-manager&#39;s Certificate, CloudNativePG&#39;s Cluster — words plus robots 🤯</text><g transform="translate(90,235)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-25-crds-operators/lessons/25-crds-operators/README.md">Read full lesson 25 →</a></p>
-</section>
-
-<!-- 26 -->
-<section class="dsec" id="l26" style="--c:#be123c">
-  <h2><span class="ln">26</span> 📈 Observability — eyes on everything</h2>
-  <p class="d">Report cards (metrics), diaries (logs), alarm bells (alerts) — and one screen for all of it.</p>
-  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="40" width="240" height="90" rx="12"/><text class="t m" x="160" y="72">🪑 pods expose /metrics</text><text class="s m" x="160" y="96">numbers on every door</text><rect class="box" x="40" y="160" width="240" height="90" rx="12"/><text class="t m" x="160" y="192">🧯 log collector</text><text class="s m" x="160" y="216">DaemonSet (L21) ships diaries</text><rect class="box" x="370" y="40" width="220" height="90" rx="12"/><text class="t m" x="480" y="72">📊 Prometheus</text><text class="s m" x="480" y="96">scrapes + keeps history</text><rect class="box" x="370" y="160" width="220" height="90" rx="12"/><text class="t m" x="480" y="192">📜 log store</text><text class="s m" x="480" y="216">diaries outlive desks</text><rect class="box" x="680" y="40" width="230" height="90" rx="12"/><text class="t m" x="795" y="72">📺 Grafana</text><text class="s m" x="795" y="96">one screen: metrics + logs</text><rect class="box" x="680" y="160" width="230" height="90" rx="12"/><text class="t m" x="795" y="192">🔔 Alertmanager</text><text class="s m" x="795" y="216">rules ring the on-call phone</text><line class="arr" x1="280" y1="85" x2="366" y2="85"/><g transform="translate(323,68)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><line class="arr" x1="280" y1="205" x2="366" y2="205"/><line class="arr" x1="590" y1="85" x2="676" y2="85"/><line class="arr dash" x1="590" y1="190" x2="676" y2="100"/><line class="arr" x1="590" y1="110" x2="676" y2="190"/><g transform="translate(633,148)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><text class="s m" x="475" y="285">start with: is it up · is it erroring · is it slow · is the cluster healthy — four questions, one dashboard</text><g transform="translate(105,285)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g>
-  </svg>
-  <p class="foot"><a href="https://github.com/BaluRaut/learn-kubernetes-school/blob/lesson-26-observability/lessons/26-observability/README.md">Read full lesson 26 →</a></p>
+<section class="dsec" id="l08" style="--c:#16a34a">
+  <h2><span class="ln">8</span> 🏬 The landscape</h2>
+  <p class="d">pgvector, Pinecone, Chroma, FAISS — picking without a bake-off.</p>
+  <svg viewBox="0 0 940 300" role="img"><rect class="box" x="40" y="40" width="270" height="100" rx="12"/><text class="t m" x="175" y="68">🐘 pgvector</text><text class="s m" x="175" y="92">the library you already have —</text><text class="s m" x="175" y="114">SQL + vectors, one backup</text><g transform="translate(40,40)"><circle r="11" class="nc"/><text class="nt" dy="4">1</text></g><rect class="box" x="340" y="40" width="270" height="100" rx="12"/><text class="t m" x="475" y="68">☁️ managed - Pinecone &amp; co</text><text class="s m" x="475" y="92">the rented hall — scale without</text><text class="s m" x="475" y="114">ops (the AWS build-vs-rent call)</text><g transform="translate(340,40)"><circle r="11" class="nc"/><text class="nt" dy="4">2</text></g><rect class="box" x="640" y="40" width="270" height="100" rx="12"/><text class="t m" x="775" y="68">🧪 Chroma · Qdrant · LanceDB</text><text class="s m" x="775" y="92">the lab bench — developer-first,</text><text class="s m" x="775" y="114">embedded to mid-scale</text><g transform="translate(640,40)"><circle r="11" class="nc"/><text class="nt" dy="4">3</text></g><rect class="box" x="190" y="165" width="270" height="100" rx="12"/><text class="t m" x="325" y="193">⚙️ FAISS · hnswlib</text><text class="s m" x="325" y="217">engine blocks, not databases —</text><text class="s m" x="325" y="239">max control, zero ops help</text><g transform="translate(190,165)"><circle r="11" class="nc"/><text class="nt" dy="4">4</text></g><rect class="box" x="490" y="165" width="270" height="100" rx="12"/><text class="t m" x="625" y="193">🔎 your old store, new tricks</text><text class="s m" x="625" y="217">OpenSearch/Redis/Mongo grew</text><text class="s m" x="625" y="239">a vector column — one less system</text><g transform="translate(490,165)"><circle r="11" class="nc"/><text class="nt" dy="4">5</text></g><text class="s m" x="470" y="292">the boring pick order: pgvector → embedded lab bench → managed/self-hosted at real scale · &lt;100k vectors? a loop is fine 😄</text></svg>
+  <p class="foot"><a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-08-landscape/lessons/08-landscape/README.md">Read full lesson 08 →</a></p>
 </section>
 
 <footer>
-  School Platform learning monorepo ·
-  <a href="index.html">Course home</a> ·
-  <a href="https://github.com/BaluRaut/learn-kubernetes-school">github.com/BaluRaut/learn-kubernetes-school</a>
+  Learn VectorDB School · <a href="index.html">Course home</a> · <a href="landscape.html">Landscape</a> ·
+  <a href="https://github.com/BaluRaut/learn-vectordb-school">GitHub</a>
  ·
   <a href="https://baluraut.github.io/school/">🏫 all schools</a>
+ ·
+  <a href="https://github.com/BaluRaut/learn-vectordb-school/issues">🐛 found a mistake?</a>
 </footer>
-
 </div>
 </body>
 </html>
