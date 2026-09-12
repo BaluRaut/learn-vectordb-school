@@ -206,7 +206,9 @@ python3 vectordb/demo.py</code></pre>
     siblings: <a href="https://baluraut.github.io/learn-ai-school/">AI</a> ·
     <a href="https://baluraut.github.io/learn-agents-school/">Agents</a> ·
     <a href="https://baluraut.github.io/learn-mcp-school/">MCP</a>
-  </footer>
+   ·
+  <a href="https://baluraut.github.io/school/">🏫 all schools</a>
+</footer>
 </div>
 </body>
 </html>
@@ -229,6 +231,8 @@ DIAGRAMS = head("Lesson diagrams — Learn VectorDB School",
 <footer>
   Learn VectorDB School · <a href="index.html">Course home</a> · <a href="landscape.html">Landscape</a> ·
   <a href="https://github.com/BaluRaut/learn-vectordb-school">GitHub</a>
+ ·
+  <a href="https://baluraut.github.io/school/">🏫 all schools</a>
 </footer>
 </div>
 </body>
@@ -299,6 +303,8 @@ LANDSCAPE = head("The vector DB landscape — Learn VectorDB School",
   Learn VectorDB School · <a href="index.html">Course home</a> ·
   <a href="lesson-diagrams.html">Lesson diagrams</a> ·
   <a href="https://github.com/BaluRaut/learn-vectordb-school">GitHub</a>
+ ·
+  <a href="https://baluraut.github.io/school/">🏫 all schools</a>
 </footer>
 </div>
 </body>
