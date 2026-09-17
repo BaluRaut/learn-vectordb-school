@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="mr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The vector DB landscape — Learn VectorDB School</title>
-<meta name="description" content="pgvector, managed services, developer-first stores, FAISS-class libraries, and legacy stores with vector columns — compared honestly, with a picking guide.">
-<meta property="og:title" content="The vector DB landscape — Learn VectorDB School">
-<meta property="og:description" content="pgvector, managed services, developer-first stores, FAISS-class libraries, and legacy stores with vector columns — compared honestly, with a picking guide.">
-<meta property="og:image" content="https://baluraut.github.io/learn-vectordb-school/images/big-picture-4k.png">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title data-en="The vector DB landscape — Learn VectorDB School">व्हेक्टर DB लँडस्केप — Learn VectorDB School</title>
+<meta content="pgvector, managed services, developer-first stores, FAISS-class libraries, and legacy stores with vector columns — compared honestly, with a picking guide." name="description"/>
+<meta content="The vector DB landscape — Learn VectorDB School" property="og:title"/>
+<meta content="pgvector, managed services, developer-first stores, FAISS-class libraries, and legacy stores with vector columns — compared honestly, with a picking guide." property="og:description"/>
+<meta content="https://baluraut.github.io/learn-vectordb-school/images/big-picture-4k.png" property="og:image"/>
+<meta content="website" property="og:type"/>
+<meta content="summary_large_image" name="twitter:card"/>
 <style>
   :root { --bg:#f8fafc; --card:#fff; --ink:#0f172a; --muted:#475569; --line:#e2e8f0; --accent:#2563eb; --ok:#16a34a; --blue:#2563eb; --bad:#dc2626; }
   @media (prefers-color-scheme: dark) { :root { --bg:#0b1220; --card:#131c2e; --ink:#e2e8f0; --muted:#94a3b8; --line:#253349; } }
@@ -58,88 +59,107 @@
   .arr { stroke:#64748b; stroke-width:2; fill:none; marker-end:url(#arw); } .dash { stroke-dasharray:6 5; }
   .nc { fill:var(--c,var(--accent)); } .nt { font:700 12px -apple-system,sans-serif; fill:#fff; text-anchor:middle; }
 </style>
-</head>
-<body>
-<svg width="0" height="0" style="position:absolute"><defs><marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"/></marker></defs></svg>
+
+<style id="i18n-css">
+#lang-pick{position:fixed;top:10px;right:10px;z-index:9999;font:600 .85rem -apple-system,"Segoe UI",Helvetica,Arial,sans-serif;background:var(--card,#fff);color:var(--ink,#0f172a);border:1px solid var(--line,#e2e8f0);border-radius:999px;padding:6px 12px;box-shadow:0 2px 10px rgba(0,0,0,.08);cursor:pointer}
+html[lang="mr"] body{font-family:"Noto Sans Devanagari","Mukta","Devanagari Sangam MN","Nirmala UI",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif}
+html[lang="mr"] svg text{font-family:"Noto Sans Devanagari","Mukta","Devanagari Sangam MN","Nirmala UI",sans-serif}
+@media print{#lang-pick{display:none}}
+</style></head>
+<body><select aria-label="Language / भाषा" id="lang-pick" onchange="schoolSetLang(this.value)">
+<option value="mr">🇮🇳 मराठी</option><option value="en">🇬🇧 English</option></select>
+<svg height="0" style="position:absolute" width="0"><defs><marker id="arw" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10"><path d="M0 0 L10 5 L0 10 z" fill="#64748b"></path></marker></defs></svg>
 <div class="wrap">
 <header>
-  <p><a href="index.html">← Back to the course home</a></p>
-  <h1>🏬 The landscape — picking without a bake-off</h1>
-  <p class="sub">Five families, honest verdicts, and the boring pick order. The questions that
-  actually differentiate: <b>filtered search at scale · hybrid built-in · ops story (deletes!
-  backups! multi-tenancy!) · the re-embedding day ⚠️ · recall numbers attached to speed claims</b>.
-  Companion to <a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-08-landscape/lessons/08-landscape/README.md">lesson 08</a>.</p>
-  <nav class="toc">
-    <a href="#pgvector">🐘 pgvector</a><a href="#managed">☁️ Managed</a>
-    <a href="#devfirst">🧪 Developer-first</a><a href="#engines">⚙️ Engines</a><a href="#legacy">🔎 Old store, new tricks</a>
-  </nav>
+<p data-en='&lt;a href="index.html"&gt;← Back to the course home&lt;/a&gt;'><a href="index.html">← कोर्सच्या मुख्य पानाकडे परत</a></p>
+<h1 data-en="🏬 The landscape — picking without a bake-off">🏬 लँडस्केप — bake-off शिवाय निवड</h1>
+<p class="sub" data-en='Five families, honest verdicts, and the boring pick order. The questions that
+  actually differentiate: &lt;b&gt;filtered search at scale · hybrid built-in · ops story (deletes!
+  backups! multi-tenancy!) · the re-embedding day ⚠️ · recall numbers attached to speed claims&lt;/b&gt;.
+  Companion to &lt;a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-08-landscape/lessons/08-landscape/README.md"&gt;lesson 08&lt;/a&gt;.'>पाच कुटुंबे, प्रामाणिक निकाल, आणि कंटाळवाणा निवड-क्रम. खरोखर फरक करणारे प्रश्न: <b>मोठ्या प्रमाणावर filtered search · अंगभूत hybrid · ops ची गोष्ट (deletes! backups! multi-tenancy!) · पुन्हा-embed करण्याचा दिवस ⚠️ · वेगाच्या दाव्यांना जोडलेले recall चे आकडे</b>. <a href="https://github.com/BaluRaut/learn-vectordb-school/blob/lesson-08-landscape/lessons/08-landscape/README.md">धडा 08</a> चा साथीदार.</p>
+<nav class="toc" data-en='
+&lt;a href="#pgvector"&gt;🐘 pgvector&lt;/a&gt;&lt;a href="#managed"&gt;☁️ Managed&lt;/a&gt;
+&lt;a href="#devfirst"&gt;🧪 Developer-first&lt;/a&gt;&lt;a href="#engines"&gt;⚙️ Engines&lt;/a&gt;&lt;a href="#legacy"&gt;🔎 Old store, new tricks&lt;/a&gt;
+'><a href="#pgvector">🐘 pgvector</a><a href="#managed">☁️ Managed</a> <a href="#devfirst">🧪 डेव्हलपर-प्रथम</a><a href="#engines">⚙️ इंजिने</a><a href="#legacy">🔎 जुना साठा, नव्या युक्त्या</a></nav>
 </header>
-
 <section class="dsec" id="pgvector" style="--c:#2563eb">
-  <h2>🐘 pgvector — the library you already have</h2>
-  <p class="d">A Postgres extension: vectors as a column type, similarity as an operator, HNSW index included. Your data and your seats in ONE database, one backup, one access model — with SQL JOINs right next to semantic search.</p>
-  <div class="quad">
-    <div class="q merit"><h4>✨ Where it shines</h4><ul><li>one system: transactions, JOINs, backups you already run</li><li>filters are just WHERE clauses — the L06 problem, solved by SQL</li><li>fine to millions of vectors with HNSW</li></ul></div>
-    <div class="q demerit"><h4>⚠️ Limits</h4><ul><li>you operate Postgres (or pay RDS — AWS school!)</li><li>extreme scale/latency needs eventually outgrow it</li><li>vector features trail the specialists by months</li></ul></div>
-    <div class="q use"><h4>🧭 Pick it when</h4><ul><li>you HAVE Postgres and the corpus fits — the default answer</li><li>compliance wants data in one audited place</li></ul></div>
-  </div>
+<h2 data-en="🐘 pgvector — the library you already have">🐘 pgvector — तुमच्याकडे आधीच असलेले ग्रंथालय</h2>
+<p class="d" data-en="A Postgres extension: vectors as a column type, similarity as an operator, HNSW index included. Your data and your seats in ONE database, one backup, one access model — with SQL JOINs right next to semantic search.">Postgres extension: column type म्हणून व्हेक्टर, operator म्हणून साम्य, HNSW index समाविष्ट. तुमचा डेटा आणि तुमच्या जागा एकाच डेटाबेसमध्ये, एक backup, एक प्रवेश-मॉडेल — semantic search च्या शेजारीच SQL JOINs.</p>
+<div class="quad">
+<div class="q merit"><h4 data-en="✨ Where it shines">✨ कुठे चमकते</h4><ul><li data-en="one system: transactions, JOINs, backups you already run">एक प्रणाली: transactions, JOINs, तुम्ही आधीच चालवता ते backups</li><li data-en="filters are just WHERE clauses — the L06 problem, solved by SQL">filters म्हणजे फक्त WHERE clauses — L06 ची समस्या, SQL ने सोडवलेली</li><li data-en="fine to millions of vectors with HNSW">HNSW सह लाखो व्हेक्टरपर्यंत ठीक</li></ul></div>
+<div class="q demerit"><h4 data-en="⚠️ Limits">⚠️ मर्यादा</h4><ul><li data-en="you operate Postgres (or pay RDS — AWS school!)">तुम्ही Postgres चालवता (किंवा RDS ला पैसे — AWS शाळा!)</li><li data-en="extreme scale/latency needs eventually outgrow it">टोकाच्या scale/latency गरजा शेवटी त्याच्या पलीकडे जातात</li><li data-en="vector features trail the specialists by months">व्हेक्टर सुविधा तज्ज्ञांच्या महिने मागे</li></ul></div>
+<div class="q use"><h4 data-en="🧭 Pick it when">🧭 निवडा जेव्हा</h4><ul><li data-en="you HAVE Postgres and the corpus fits — the default answer">तुमच्याकडे Postgres आहे आणि corpus मावतो — default उत्तर</li><li data-en="compliance wants data in one audited place">compliance ला डेटा एका audit केलेल्या जागी हवा</li></ul></div>
+</div>
 </section>
-
 <section class="dsec" id="managed" style="--c:#2563eb">
-  <h2>☁️ Managed — Pinecone &amp; friends (the rented hall)</h2>
-  <p class="d">Fully hosted vector search: you POST vectors, they handle indexes, scaling, filtered ANN, replication. The AWS build-vs-rent question (EC2 L08), answered 'rent'.</p>
-  <div class="quad">
-    <div class="q merit"><h4>✨ Where it shines</h4><ul><li>zero ops; scales past what you'd want to operate</li><li>filtered ANN + hybrid done properly, by specialists</li><li>predictable latency SLAs at big N</li></ul></div>
-    <div class="q demerit"><h4>⚠️ Limits</h4><ul><li>per-query/per-pod pricing adds up at volume</li><li>your data leaves home (agreements matter)</li><li>vendor coupling; migration = re-upload everything</li></ul></div>
-    <div class="q use"><h4>🧭 Pick it when</h4><ul><li>tens of millions of vectors + strict latency + no ops appetite</li><li>the team is product-only and speed-to-market rules</li></ul></div>
-  </div>
+<h2 data-en="☁️ Managed — Pinecone &amp;amp; friends (the rented hall)">☁️ Managed — Pinecone &amp; मित्र (भाड्याचा हॉल)</h2>
+<p class="d" data-en="Fully hosted vector search: you POST vectors, they handle indexes, scaling, filtered ANN, replication. The AWS build-vs-rent question (EC2 L08), answered 'rent'.">पूर्ण hosted व्हेक्टर search: तुम्ही व्हेक्टर POST करता, ते indexes, scaling, filtered ANN, replication सांभाळतात. AWS चा build-vs-rent प्रश्न (EC2 L08), 'भाड्याने' असे उत्तर.</p>
+<div class="quad">
+<div class="q merit"><h4 data-en="✨ Where it shines">✨ कुठे चमकते</h4><ul><li data-en="zero ops; scales past what you'd want to operate">शून्य ops; तुम्ही चालवू इच्छिता त्यापलीकडे scale</li><li data-en="filtered ANN + hybrid done properly, by specialists">filtered ANN + hybrid तज्ज्ञांनी नीट केलेले</li><li data-en="predictable latency SLAs at big N">मोठ्या N वर अंदाजे latency SLAs</li></ul></div>
+<div class="q demerit"><h4 data-en="⚠️ Limits">⚠️ मर्यादा</h4><ul><li data-en="per-query/per-pod pricing adds up at volume">प्रत्येक query/pod ची किंमत volume वर वाढते</li><li data-en="your data leaves home (agreements matter)">तुमचा डेटा घराबाहेर जातो (करार महत्त्वाचे)</li><li data-en="vendor coupling; migration = re-upload everything">vendor बांधिलकी; migration = सगळे पुन्हा upload</li></ul></div>
+<div class="q use"><h4 data-en="🧭 Pick it when">🧭 निवडा जेव्हा</h4><ul><li data-en="tens of millions of vectors + strict latency + no ops appetite">कोट्यवधी व्हेक्टर + कठोर latency + ops ची इच्छा नाही</li><li data-en="the team is product-only and speed-to-market rules">टीम फक्त product ची आणि बाजारात वेग महत्त्वाचा</li></ul></div>
+</div>
 </section>
-
 <section class="dsec" id="devfirst" style="--c:#16a34a">
-  <h2>🧪 Developer-first — Chroma · Qdrant · Weaviate · LanceDB</h2>
-  <p class="d">The lab benches: pip-install or one container, embedded or server mode, APIs built for AI apps. Each has a specialty — Qdrant (filters/perf, Rust), Weaviate (batteries included), Chroma (prototyping DX), LanceDB (columnar, local-first).</p>
-  <div class="quad">
-    <div class="q merit"><h4>✨ Where it shines</h4><ul><li>fastest start: notebook → prototype in minutes</li><li>embedded mode = no server at all (SQLite energy)</li><li>self-hostable at real scale (k8s school skills apply ☸️)</li></ul></div>
-    <div class="q demerit"><h4>⚠️ Limits</h4><ul><li>another system to run once past embedded mode</li><li>maturity varies by feature — test YOUR filters + deletes</li><li>easy start can hide the ops cliff at scale</li></ul></div>
-    <div class="q use"><h4>🧭 Pick it when</h4><ul><li>prototypes and mid-scale products</li><li>self-hosting by choice, with the ops skills to back it</li></ul></div>
-  </div>
+<h2 data-en="🧪 Developer-first — Chroma · Qdrant · Weaviate · LanceDB">🧪 डेव्हलपर-प्रथम — Chroma · Qdrant · Weaviate · LanceDB</h2>
+<p class="d" data-en="The lab benches: pip-install or one container, embedded or server mode, APIs built for AI apps. Each has a specialty — Qdrant (filters/perf, Rust), Weaviate (batteries included), Chroma (prototyping DX), LanceDB (columnar, local-first).">प्रयोगशाळेचे बाक: pip-install किंवा एक कंटेनर, embedded किंवा server mode, AI ॲप्ससाठी बांधलेले APIs. प्रत्येकाची खासियत — Qdrant (filters/perf, Rust), Weaviate (सगळे सोबत), Chroma (prototyping DX), LanceDB (columnar, local-first).</p>
+<div class="quad">
+<div class="q merit"><h4 data-en="✨ Where it shines">✨ कुठे चमकते</h4><ul><li data-en="fastest start: notebook → prototype in minutes">सर्वात जलद सुरुवात: notebook → मिनिटांत prototype</li><li data-en="embedded mode = no server at all (SQLite energy)">embedded mode = server च नाही (SQLite ची ऊर्जा)</li><li data-en="self-hostable at real scale (k8s school skills apply ☸️)">खऱ्या प्रमाणावर self-host करता येणारे (k8s शाळेची कौशल्ये लागू ☸️)</li></ul></div>
+<div class="q demerit"><h4 data-en="⚠️ Limits">⚠️ मर्यादा</h4><ul><li data-en="another system to run once past embedded mode">embedded mode पलीकडे गेल्यावर चालवायची आणखी एक प्रणाली</li><li data-en="maturity varies by feature — test YOUR filters + deletes">परिपक्वता सुविधेनुसार बदलते — तुमचे filters + deletes तपासा</li><li data-en="easy start can hide the ops cliff at scale">सोपी सुरुवात scale वरचा ops कडा लपवू शकते</li></ul></div>
+<div class="q use"><h4 data-en="🧭 Pick it when">🧭 निवडा जेव्हा</h4><ul><li data-en="prototypes and mid-scale products">prototypes आणि मध्यम-प्रमाणाची products</li><li data-en="self-hosting by choice, with the ops skills to back it">निवडून self-hosting, ते सांभाळण्याच्या ops कौशल्यांसह</li></ul></div>
+</div>
 </section>
-
 <section class="dsec" id="engines" style="--c:#16a34a">
-  <h2>⚙️ Engines — FAISS · hnswlib · ScaNN</h2>
-  <p class="d">Not databases: LIBRARIES implementing lesson 04's indexes at maximum speed. No persistence, no filters, no replication — you build the database around the engine.</p>
-  <div class="quad">
-    <div class="q merit"><h4>✨ Where it shines</h4><ul><li>fastest raw ANN available; total control of index params</li><li>research-grade: every algorithm, every knob</li><li>embed inside your own service — no extra hop</li></ul></div>
-    <div class="q demerit"><h4>⚠️ Limits</h4><ul><li>everything else is DIY: storage, deletes, filters, HA</li><li>GPU/memory tuning is on you</li><li>easy to build a worse database than the ones for sale 😄</li></ul></div>
-    <div class="q use"><h4>🧭 Pick it when</h4><ul><li>you're building infrastructure or doing research</li><li>extreme perf needs where a stock DB measured short</li></ul></div>
-  </div>
+<h2 data-en="⚙️ Engines — FAISS · hnswlib · ScaNN">⚙️ इंजिने — FAISS · hnswlib · ScaNN</h2>
+<p class="d" data-en="Not databases: LIBRARIES implementing lesson 04's indexes at maximum speed. No persistence, no filters, no replication — you build the database around the engine.">डेटाबेस नव्हेत: धडा 04 चे indexes कमाल वेगाने राबवणाऱ्या LIBRARIES. persistence नाही, filters नाहीत, replication नाही — तुम्ही इंजिनाभोवती डेटाबेस बांधता.</p>
+<div class="quad">
+<div class="q merit"><h4 data-en="✨ Where it shines">✨ कुठे चमकते</h4><ul><li data-en="fastest raw ANN available; total control of index params">उपलब्ध सर्वात जलद कच्चे ANN; index params वर पूर्ण नियंत्रण</li><li data-en="research-grade: every algorithm, every knob">संशोधन-दर्जाचे: प्रत्येक algorithm, प्रत्येक नॉब</li><li data-en="embed inside your own service — no extra hop">तुमच्या स्वतःच्या सेवेत embed करा — जादा hop नाही</li></ul></div>
+<div class="q demerit"><h4 data-en="⚠️ Limits">⚠️ मर्यादा</h4><ul><li data-en="everything else is DIY: storage, deletes, filters, HA">बाकी सगळे DIY: storage, deletes, filters, HA</li><li data-en="GPU/memory tuning is on you">GPU/memory tuning तुमच्यावर</li><li data-en="easy to build a worse database than the ones for sale 😄">विकत मिळणाऱ्यांपेक्षा वाईट डेटाबेस बांधणे सोपे 😄</li></ul></div>
+<div class="q use"><h4 data-en="🧭 Pick it when">🧭 निवडा जेव्हा</h4><ul><li data-en="you're building infrastructure or doing research">तुम्ही infrastructure बांधता किंवा संशोधन करता</li><li data-en="extreme perf needs where a stock DB measured short">टोकाच्या perf गरजा जिथे तयार DB कमी पडला</li></ul></div>
+</div>
 </section>
-
 <section class="dsec" id="legacy" style="--c:#16a34a">
-  <h2>🔎 The old store learned new tricks — OpenSearch · Redis · Mongo · SQLite-vec</h2>
-  <p class="d">Your existing search/cache/document store grew a vector column. Often the pragmatic winner: one less system, hybrid search where the keywords already live.</p>
-  <div class="quad">
-    <div class="q merit"><h4>✨ Where it shines</h4><ul><li>reuse deployed infra, auth, backups, dashboards</li><li>OpenSearch/Elastic: keyword+vector hybrid in one engine</li><li>team already knows how to operate it</li></ul></div>
-    <div class="q demerit"><h4>⚠️ Limits</h4><ul><li>vector features are add-ons — depth varies a lot</li><li>perf ceilings below the specialists</li><li>two workloads now share one cluster's fate (noisy neighbors)</li></ul></div>
-    <div class="q use"><h4>🧭 Pick it when</h4><ul><li>it's already running and benchmarks say it fits</li><li>hybrid search matters and your keywords live there</li></ul></div>
-  </div>
+<h2 data-en="🔎 The old store learned new tricks — OpenSearch · Redis · Mongo · SQLite-vec">🔎 जुन्या साठ्याने नव्या युक्त्या शिकल्या — OpenSearch · Redis · Mongo · SQLite-vec</h2>
+<p class="d" data-en="Your existing search/cache/document store grew a vector column. Often the pragmatic winner: one less system, hybrid search where the keywords already live.">तुमच्या सध्याच्या search/cache/document store ला व्हेक्टर column आला. अनेकदा व्यावहारिक विजेता: एक प्रणाली कमी, keywords आधीच जिथे राहतात तिथे hybrid search.</p>
+<div class="quad">
+<div class="q merit"><h4 data-en="✨ Where it shines">✨ कुठे चमकते</h4><ul><li data-en="reuse deployed infra, auth, backups, dashboards">deployed infra, auth, backups, dashboards पुन्हा वापरा</li><li data-en="OpenSearch/Elastic: keyword+vector hybrid in one engine">OpenSearch/Elastic: एकाच इंजिनात keyword+व्हेक्टर hybrid</li><li data-en="team already knows how to operate it">टीमला ते चालवणे आधीच माहीत</li></ul></div>
+<div class="q demerit"><h4 data-en="⚠️ Limits">⚠️ मर्यादा</h4><ul><li data-en="vector features are add-ons — depth varies a lot">व्हेक्टर सुविधा add-ons आहेत — खोली खूप बदलते</li><li data-en="perf ceilings below the specialists">perf ची मर्यादा तज्ज्ञांपेक्षा खाली</li><li data-en="two workloads now share one cluster's fate (noisy neighbors)">दोन workloads आता एका cluster चे नशीब वाटून घेतात (गोंगाटी शेजारी)</li></ul></div>
+<div class="q use"><h4 data-en="🧭 Pick it when">🧭 निवडा जेव्हा</h4><ul><li data-en="it's already running and benchmarks say it fits">ते आधीच चालू आहे आणि benchmarks म्हणतात ते बसते</li><li data-en="hybrid search matters and your keywords live there">hybrid search महत्त्वाचे आणि तुमचे keywords तिथे राहतात</li></ul></div>
+</div>
 </section>
 <section class="dsec" style="--c:#16a34a">
-  <h2>🧭 The boring pick order (from lesson 08)</h2>
-  <p class="d">1 have Postgres + corpus fits → <b>pgvector</b> · 2 prototype → <b>embedded lab bench</b> ·
-  3 big scale, no ops → <b>managed</b> · 4 big scale, ops appetite → <b>Qdrant/Weaviate self-hosted</b> ·
-  5 building an engine → <b>FAISS</b> · 6 under ~100k vectors → <b>a loop is fine</b> 😄 —
-  and whatever you pick, the embedder boundary (L05) keeps your vectors portable.</p>
+<h2 data-en="🧭 The boring pick order (from lesson 08)">🧭 कंटाळवाणा निवड-क्रम (धडा 08 मधून)</h2>
+<p class="d" data-en="1 have Postgres + corpus fits → &lt;b&gt;pgvector&lt;/b&gt; · 2 prototype → &lt;b&gt;embedded lab bench&lt;/b&gt; ·
+  3 big scale, no ops → &lt;b&gt;managed&lt;/b&gt; · 4 big scale, ops appetite → &lt;b&gt;Qdrant/Weaviate self-hosted&lt;/b&gt; ·
+  5 building an engine → &lt;b&gt;FAISS&lt;/b&gt; · 6 under ~100k vectors → &lt;b&gt;a loop is fine&lt;/b&gt; 😄 —
+  and whatever you pick, the embedder boundary (L05) keeps your vectors portable.">1 Postgres आहे + corpus मावतो → <b>pgvector</b> · 2 prototype → <b>embedded प्रयोगशाळा</b> · 3 मोठे प्रमाण, ops नाही → <b>managed</b> · 4 मोठे प्रमाण, ops ची इच्छा → <b>Qdrant/Weaviate self-hosted</b> · 5 इंजिन बांधताय → <b>FAISS</b> · 6 ~100k व्हेक्टरखाली → <b>loop पुरतो</b> 😄 — आणि काहीही निवडा, embedder ची सीमा (L05) तुमचे व्हेक्टर portable ठेवते.</p>
 </section>
-<footer>
-  Learn VectorDB School · <a href="index.html">Course home</a> ·
-  <a href="lesson-diagrams.html">Lesson diagrams</a> ·
-  <a href="https://github.com/BaluRaut/learn-vectordb-school">GitHub</a>
+<footer data-en='
+  Learn VectorDB School · &lt;a href="index.html"&gt;Course home&lt;/a&gt; ·
+  &lt;a href="lesson-diagrams.html"&gt;Lesson diagrams&lt;/a&gt; ·
+  &lt;a href="https://github.com/BaluRaut/learn-vectordb-school"&gt;GitHub&lt;/a&gt;
  ·
-  <a href="https://baluraut.github.io/school/">🏫 all schools</a>
+  &lt;a href="https://baluraut.github.io/school/"&gt;🏫 all schools&lt;/a&gt;
  ·
-  <a href="https://github.com/BaluRaut/learn-vectordb-school/issues">🐛 found a mistake?</a>
-</footer>
+  &lt;a href="https://github.com/BaluRaut/learn-vectordb-school/issues"&gt;🐛 found a mistake?&lt;/a&gt;
+'>Learn VectorDB School · <a href="index.html">कोर्स मुख्य पान</a> · <a href="lesson-diagrams.html">धड्यांच्या आकृत्या</a> · <a href="https://github.com/BaluRaut/learn-vectordb-school">GitHub</a> · <a href="https://baluraut.github.io/school/">🏫 सर्व शाळा</a> · <a href="https://github.com/BaluRaut/learn-vectordb-school/issues">🐛 चूक सापडली?</a></footer>
 </div>
-</body>
+
+<script id="i18n-js">
+function schoolSetLang(l){
+  try{localStorage.setItem('school-lang',l)}catch(e){}
+  document.documentElement.setAttribute('lang',l);
+  document.querySelectorAll('[data-en]').forEach(function(el){
+    if(!el.hasAttribute('data-mr')) el.setAttribute('data-mr', el.innerHTML);
+    el.innerHTML = (l==='en') ? el.getAttribute('data-en') : el.getAttribute('data-mr');
+  });
+  document.querySelectorAll('[data-en-ph]').forEach(function(el){
+    if(!el.hasAttribute('data-mr-ph')) el.setAttribute('data-mr-ph', el.getAttribute('placeholder'));
+    el.setAttribute('placeholder', (l==='en') ? el.getAttribute('data-en-ph') : el.getAttribute('data-mr-ph'));
+  });
+  var p=document.getElementById('lang-pick'); if(p) p.value=l;
+}
+(function(){ var l='mr'; try{ l=localStorage.getItem('school-lang')||'mr'; }catch(e){}
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){schoolSetLang(l)}); else schoolSetLang(l); })();
+</script></body>
 </html>
