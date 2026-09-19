@@ -80,12 +80,12 @@ SVG = {}
 SVG[1]=(f'<svg viewBox="0 0 940 300" role="img">{D} x="40" y="60" width="340" height="180" rx="14"/>{t(210,95,"📇 keyword catalog")}{sm(210,125,"&#39;kind to animals&#39; →")}{sm(210,147,"match exact strings →")}{sm(210,169,"❌ &#39;Every Living Thing&#39; missed")}{sm(210,205,"strings, not meaning")}{num(40,60,1)}'
  f'{B} x="440" y="40" width="460" height="220" rx="14"/>{t(670,75,"🗺️ the meaning hall — a vector DB")}'
  f'{S} x="465" y="95" width="190" height="60" rx="10"/>{sm(560,120,"1 seat the question")}{sm(560,142,"(embed it)")}'
- f'{S} x="680" y="95" width="195" height="60" rx="10"/>{sm(777,120,"2 find nearest seats")}{sm(777,142,"fast, at any scale")}'
+ f'{S} x="670" y="95" width="225" height="60" rx="10"/>{sm(782,120,"2 find nearest seats")}{sm(782,142,"fast at large scale · right index")}'
  f'{S} x="565" y="175" width="210" height="60" rx="10"/>{sm(670,200,"3 ✅ &#39;Every Living Thing&#39;")}{sm(670,222,"zero shared words!")}'
- f'{arr(655,125,676,125)}{arr(777,155,700,171)}{num(440,40,2)}'
+ f'{arr(655,125,666,125)}{arr(782,155,700,171)}{num(440,40,2)}'
  f'{sm(470,290,"store millions of seats · return the k nearest · with stickers 🏷️ — that&#39;s the whole product")}</svg>')
 SVG[2]=(f'<svg viewBox="0 0 940 300" role="img">{S} x="40" y="40" width="270" height="200" rx="14"/>{t(175,72,"🔤 toy: count words")}{sm(175,100,"hash each word → bump 1 of")}{sm(175,122,"256 buckets → normalize")}{D} x="65" y="145" width="220" height="70" rx="10"/>{sm(175,172,"😬 nearsighted: shared WORDS")}{sm(175,194,"&#39;pupils&#39; ≠ &#39;students&#39; (0.00!)")}{num(40,40,1)}'
- f'{B} x="350" y="40" width="270" height="200" rx="14"/>{t(485,72,"🧠 real: embedding model")}{sm(485,100,"a trained network → 768-3072")}{sm(485,122,"dims where directions = MEANING")}{S} x="375" y="145" width="220" height="70" rx="10"/>{sm(485,172,"✅ &#39;pupils&#39; sits beside &#39;students&#39;")}{sm(485,194,"across phrasing &amp; languages")}{num(350,40,2)}'
+ f'{B} x="350" y="40" width="270" height="200" rx="14"/>{t(485,72,"🧠 real: embedding model")}{sm(485,96,"a trained network → fixed-size vector")}{sm(485,116,"(hundreds–thousands of dims)")}{sm(485,136,"where directions = MEANING")}{S} x="375" y="145" width="220" height="70" rx="10"/>{sm(485,172,"✅ &#39;pupils&#39; sits beside &#39;students&#39;")}{sm(485,194,"across phrasing &amp; languages")}{num(350,40,2)}'
  f'{B} x="680" y="75" width="230" height="130" rx="14"/>{t(795,110,"🗺️ the DB doesn&#39;t care")}{sm(795,138,"vectors in, neighbors out —")}{sm(795,160,"embed() is ONE swappable")}{sm(795,182,"function (lesson 05)")}{num(680,75,3)}'
  f'{arr(310,140,346,140)}{arr(620,140,676,140)}'
  f'{sm(470,285,"⚠️ the same-model rule: query and documents must use the SAME embedder — change it → re-embed everything")}</svg>')
@@ -95,16 +95,16 @@ SVG[3]=(f'<svg viewBox="0 0 940 300" role="img">{B} x="40" y="40" width="420" he
 SVG[4]=(f'<svg viewBox="0 0 940 300" role="img">{D} x="40" y="40" width="270" height="110" rx="14"/>{t(175,72,"🚶 brute force - exact")}{sm(175,100,"compare with ALL N seats")}{sm(175,122,"N=7k: fine · N=7M: 💀")}{num(40,40,1)}'
  f'{B} x="350" y="40" width="270" height="110" rx="14"/>{t(485,72,"🗺️ HNSW - friendship map")}{sm(485,100,"local friends + pen-pals across")}{sm(485,122,"the hall → log-ish greedy hops")}{num(350,40,2)}'
  f'{B} x="660" y="40" width="250" height="110" rx="14"/>{t(785,72,"🏘️ IVF - neighborhoods")}{sm(785,100,"pre-cluster districts; search")}{sm(785,122,"only the nearest few")}{num(660,40,3)}'
- f'{S} x="190" y="190" width="560" height="80" rx="14"/>{t(470,220,"🎯 the recall dial: speed ↔ % of TRUE neighbors found")}{sm(470,246,"95-99% recall at 100-1000× speedup is the standard trade — benchmarks without recall numbers are marketing")}{num(190,190,4)}</svg>')
+ f'{S} x="150" y="185" width="640" height="95" rx="14"/>{t(470,212,"🎯 the recall dial: speed ↔ % of TRUE neighbors found")}{sm(470,238,"ANN trades some recall for much faster search — tune it; benchmarks without recall numbers are marketing")}{sm(470,264,"a vector DB is the storage/query system · HNSW or IVF is an index strategy INSIDE it")}{num(150,185,4)}</svg>')
 SVG[5]=(f'<svg viewBox="0 0 940 300" role="img">{B} x="40" y="50" width="270" height="200" rx="14"/>{t(175,82,"1 🔢 embed()")}{sm(175,110,"hash words → 256 dims →")}{sm(175,132,"normalize · ← swap for a")}{sm(175,154,"model call HERE")}{sm(175,190,"embedder and store are")}{sm(175,212,"separate jobs — by design")}{num(40,50,1)}'
  f'{B} x="340" y="50" width="270" height="200" rx="14"/>{t(475,82,"2 📐 cosine()")}{sm(475,110,"one line: dot product")}{sm(475,132,"(normalize made it cheap)")}{num(340,50,2)}'
  f'{B} x="640" y="50" width="270" height="200" rx="14"/>{t(775,82,"3 🗄️ MiniVectorDB")}{sm(775,110,"add: embed + store")}{sm(775,132,"(id, vector, TEXT, stickers)")}{sm(775,158,"search: filter 🏷️ FIRST →")}{sm(775,180,"score → sort → top-k")}{sm(775,212,"missing on purpose: persistence,")}{sm(775,234,"deletes, ANN — your homework")}{num(640,50,3)}'
  f'{sm(470,285,"~70 lines, zero dependencies — a database you can hold entirely in your head")}</svg>')
 SVG[6]=(f'<svg viewBox="0 0 940 300" role="img">{B} x="40" y="40" width="200" height="90" rx="12"/>{t(140,72,"📚 400-page book")}{sm(140,98,"can&#39;t sit in one chair")}'
- f'{B} x="300" y="40" width="300" height="90" rx="12"/>{t(450,66,"✂️ chunking - the craft")}{sm(450,90,"natural seams · self-contained ·")}{sm(450,112,"~hundreds of tokens · 10-15% overlap 🔁")}{num(300,40,1)}'
+ f'{B} x="280" y="40" width="360" height="90" rx="12"/>{t(460,66,"✂️ chunking - the craft")}{sm(460,90,"natural seams · self-contained · overlap 🔁")}{sm(460,112,"size &amp; overlap fit the docs — e.g. ~hundreds of tokens")}{num(280,40,1)}'
  f'{B} x="660" y="40" width="250" height="90" rx="12"/>{t(785,66,"🗂️ cards + stickers 🏷️")}{sm(785,90,"room:3A · kind:rules ·")}{sm(785,112,"source:handbook-p12 (receipts!)")}{num(660,40,2)}'
- f'{arr(240,85,296,85)}{arr(600,85,656,85)}'
- f'{D} x="40" y="170" width="420" height="100" rx="12"/>{sm(250,198,"❌ too big: five topics, one murky seat")}{sm(250,220,"❌ too small: &#39;…it must be returned&#39; — WHAT must?")}{sm(250,248,"chunking moves quality 2-5× · indexes move it 1.1×")}{num(40,170,3)}'
+ f'{arr(240,85,276,85)}{arr(640,85,656,85)}'
+ f'{D} x="40" y="170" width="420" height="100" rx="12"/>{sm(250,198,"❌ too big: five topics, one murky seat")}{sm(250,220,"❌ too small: &#39;…it must be returned&#39; — WHAT must?")}{sm(250,248,"chunking moves quality a lot · the index mostly moves speed")}{num(40,170,3)}'
  f'{B} x="500" y="170" width="410" height="100" rx="12"/>{t(705,198,"🤝 hybrid search")}{sm(705,224,"meaning-search misses &#39;E-4012&#39;; keywords miss")}{sm(705,246,"synonyms — run BOTH, merge (RRF)")}{num(500,170,4)}</svg>')
 SVG[7]=(f'<svg viewBox="0 0 940 300" role="img">{S} x="40" y="40" width="400" height="100" rx="12"/>{t(240,66,"🗂️ index time - once, on change")}{sm(240,92,"docs → ✂️ chunk → 🔢 embed → 🗄️ store")}{sm(240,114,"(re-index tonight, &#39;knows&#39; it tomorrow)")}{num(40,40,1)}'
  f'{B} x="500" y="40" width="410" height="100" rx="12"/>{t(705,66,"❓ question time - every query")}{sm(705,92,"embed the question (SAME model) → search k=4")}{sm(705,114,"(+ stickers 🏷️) → optional rerank 🧐")}{num(500,40,2)}'
