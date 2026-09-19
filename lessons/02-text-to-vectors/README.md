@@ -25,7 +25,8 @@ half of hybrid search.
 
 **The real way — ask a model that has read everything** 🧠 (AI school
 L02+L04): an **embedding model** — a trained neural network — maps text
-to ~768–3072 coordinates where the directions mean *meaning*: learned
+to a fixed-length vector (hundreds to thousands of coordinates, depending
+on the model) where the directions mean *meaning*: learned
 from billions of examples, so "pupils" sits beside "students", "refund my
 order" beside "I want my money back", across phrasing and even languages.
 
@@ -45,7 +46,7 @@ flowchart LR
         lim["😬 nearsighted: shared WORDS only"]
     end
     subgraph real["🧠 real: embedding model"]
-        m["trained network → 768-3072 dims<br/>directions = MEANING"]
+        m["trained network → fixed-size vector<br/>(hundreds–thousands of dims) · directions = MEANING"]
         win["'pupils' ≈ 'students' ✅"]
     end
     v["🗺️ a seat: [0.12, -0.08, …]<br/>the DB takes it from here —<br/>either way"]
