@@ -36,8 +36,9 @@ the hall secretly organizes itself:
 The price of speed: **approximate**. The map might miss a true
 neighbor — measured as **recall** ("of the true top-10, how many did we
 return?"). Real systems tune a dial: more effort ↔ higher recall.
-95–99% recall at 100–1000× speedup is the standard trade — and for RAG,
-a 97%-right page-finder is indistinguishable from perfect.
+ANN trades some recall for much faster search — tune the speed ↔ recall
+dial on your own data — and for RAG, a page-finder that is right nearly
+every time is indistinguishable from perfect.
 
 ## 🗺️ Diagram
 
@@ -60,6 +61,11 @@ flowchart TB
 ```
 
 ## ❓ What
+
+- **Vector database ≠ vector index.** A vector *database* is the
+  storage-and-query system — seats, stickers, filter, top-k (lesson 05
+  builds one). HNSW or IVF is an *indexing/search strategy inside* that
+  system. A database can swap its index; an index alone is not a database.
 
 - **kNN** (exact) vs **ANN** (approximate): correctness vs scale. Under
   ~100k vectors, brute force on modern hardware is often FINE — don't
