@@ -24,9 +24,9 @@ an art:
 - **The craft**: cut on natural seams (paragraphs, sections, headings —
   never mid-sentence), keep chunks self-contained-ish, add **overlap**
   🔁 (each card repeats the last lines of the previous one) so ideas
-  spanning a boundary live fully on at least one card. Common recipe:
-  a few hundred tokens per chunk, 10–15% overlap — then TUNE on your
-  data.
+  spanning a boundary live fully on at least one card. Chunk size and overlap depend on
+  document structure and retrieval needs — a few hundred tokens with some
+  overlap is a common starting point, not a rule; TUNE on your data.
 
 And every card gets **colored stickers** 🏷️ (metadata): `room: 3A`,
 `kind: rules`, `year: 2026`, `source: handbook-p12`. Stickers make two
@@ -49,7 +49,7 @@ catalog AND walks the hall.
 ```mermaid
 flowchart LR
     book["📚 400-page handbook"]
-    cut["✂️ chunking<br/>natural seams · self-contained ·<br/>~hundreds of tokens · 10-15% overlap 🔁"]
+    cut["✂️ chunking<br/>natural seams · self-contained ·<br/>size & overlap fit the docs (e.g. ~hundreds of tokens) 🔁"]
     cards["🗂️ index cards<br/>+ stickers 🏷️ room/kind/source"]
     hall["🗺️ the hall<br/>filtered search: stickers FIRST,<br/>then nearest-by-meaning"]
     hybrid["🤝 hybrid: + keyword catalog<br/>for exact strings (E-4012) — merge results"]
@@ -63,16 +63,17 @@ flowchart LR
   by-structure (headings/paragraphs — usually best) · semantic
   (embed-and-split at topic shifts — fancy, sometimes worth it).
   Always store `source` + position for citations.
-- **Overlap** trades storage for boundary-safety. 10–15% is the
-  boring, correct default.
+- **Overlap** trades storage for boundary-safety. A modest overlap is a
+  sensible starting point; how much depends on the document structure.
 - **Metadata filtering at scale** is a real feature, not a for-loop:
   pre-filter shrinks the ANN search space (fast, but the index must
   support it); post-filter can starve your top-k. Lesson 08's products
   differ exactly here.
 - **The evals echo** (Agents school L06): retrieval has its own metric
   — "did the right card come back?" Build a tiny golden-questions set
-  and re-run it whenever you change chunking. Chunking changes move
-  quality 2–5×; index tuning moves it 1.1×. Spend accordingly.
+  and re-run it whenever you change chunking. Chunking changes can move
+  retrieval quality dramatically; index tuning mostly moves speed. Spend
+  accordingly.
 
 ## 🤔 Why
 

@@ -30,7 +30,8 @@ the whole product:
 
 1. put things in, each with its seat (and a few stickers 🏷️ — metadata),
 2. given a new seat, return the k closest, quickly,
-3. at any scale, without asking every seat one by one.
+3. fast at large scale — with the right index — without asking every seat
+   one by one.
 
 Everything else — chunking, filters, indexes, RAG — is refinement of
 those three jobs, and this course covers each.

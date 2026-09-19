@@ -47,6 +47,12 @@ flowchart TB
 
 ## ❓ What (details worth stealing)
 
+- **What you built is the database, not an index.** MiniVectorDB is the
+  storage/query system: it embeds, stores, filters and ranks. Its search
+  scans every seat (brute force); swapping that loop for HNSW or IVF
+  (lesson 04) would add an *index inside the same database* — the API
+  would not change.
+
 - **Normalize at write time, dot at read time** — the single best
   perf trick in vector search, and it's two lines here.
 - **Filter before scoring** — `search()` applies stickers first, then
