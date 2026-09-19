@@ -39,7 +39,7 @@
   <text class="t m" x="730" y="203">🔢 text → vector</text>
   <text class="s m" x="730" y="231">toy: hashed word counts (nearsighted —</text>
   <text class="s m" x="730" y="255">'pupils' ≠ 'students'!) · real: learned</text>
-  <text class="s m" x="730" y="279">embeddings, fixed-size (hundreds–thousands of) meaning-dims · same DB</text>
+  <text class="s m" x="730" y="279">embeddings, fixed-size meaning-dims · same DB</text>
   <g transform="translate(530,170)"><circle r="13" fill="#2563eb"/><text class="ntb" dy="5">2</text></g>
 
   <rect class="bxb" x="990" y="170" width="400" height="130" rx="14"/>
